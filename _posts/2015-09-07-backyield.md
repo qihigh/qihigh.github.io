@@ -98,6 +98,18 @@ chmod 600 weico_rsa 你要改下权限
 	在server部分又监听80端口，定义了域名访问weico3.weico.cc,将所有请求```proxy_pass http://ttt;```转给了ttt，完成了到go服务的请求
 	+ 个人猜测：数据库部分,go语言部分代码仅仅提供了对外的api，从数据库中读取数据；数据库的写入部分是weico_admin_v3部分来完成的。
 
+10. 添加ssh到服务器
+	
+	> 实际使用的时候，其实就是将本地的id_rsa.pub添加到服务器的 authorized_keys 中
+	<pre>
+	# ssh-keygen -t rsa (连续三次回车,即在本地生成了公钥和私钥,不设置密码)
+	# ssh root@172.24.253.2 "mkdir .ssh;chmod 0700 .ssh" (需要输入密码)
+	# scp ~/.ssh/id_rsa.pub root@172.24.253.2:.ssh/id_rsa.pub (需要输入密码)
+	然后在B上的命令:
+	# touch /root/.ssh/authorized_keys (如果已经存在这个文件, 跳过这条)
+	# cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys (将id_rsa.pub的内容追加到 authorized_keys 中)
+	回到A机器:
+	# ssh root@172.24.253.2 (因为没有设置私钥密码, 所以不需要密码, 登录成功) </pre>
 <pre>
 
 账号：
@@ -208,6 +220,7 @@ ssh deployer@118.26.233.57
 ssh deployer@118.26.225.125
 1. weico.com/eicodesign.com等官网
 2. 数据库访问 mysql -h 127.0.0.1 -uroot
+3. eico的用户管理erp http://118.26.225.125:8087/
 
 ssh deployer@119.147.137.69
 ssh deployer@119.90.40.250

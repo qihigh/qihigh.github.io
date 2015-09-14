@@ -1,0 +1,60 @@
+nohup: jeykll: No such file or directory
+Configuration file: /Users/qihuan/workspace/java/qihigh.github.io/_config.yml
+            Source: /Users/qihuan/workspace/java/qihigh.github.io
+       Destination: /Users/qihuan/workspace/java/qihigh.github.io/_site
+      Generating... 
+                    done.
+ Auto-regeneration: enabled for '/Users/qihuan/workspace/java/qihigh.github.io'
+Configuration file: /Users/qihuan/workspace/java/qihigh.github.io/_config.yml
+    Server address: http://127.0.0.1:4000/
+  Server running... press ctrl-c to stop.
+      Regenerating: 1 file(s) changed at 2015-09-14 10:31:38 ...done in 0.419359 seconds.
+      Regenerating: 1 file(s) changed at 2015-09-14 10:33:37 ...done in 0.417194 seconds.
+      Regenerating: 1 file(s) changed at 2015-09-14 10:34:03 ...done in 0.397188 seconds.
+      Regenerating: 1 file(s) changed at 2015-09-14 10:34:06 ...done in 0.409954 seconds.
+      Regenerating: 1 file(s) changed at 2015-09-14 10:35:56 ...done in 0.412358 seconds.
+      Regenerating: 1 file(s) changed at 2015-09-14 10:37:13 ...done in 0.410618 seconds.
+      Regenerating: 1 file(s) changed at 2015-09-14 10:37:54 ...done in 0.398658 seconds.
+      Regenerating: 1 file(s) changed at 2015-09-14 10:38:10 ...done in 0.446805 seconds.
+      Regenerating: 2 file(s) changed at 2015-09-14 10:40:28 ...done in 0.534466 seconds.
+      Regenerating: 1 file(s) changed at 2015-09-14 10:40:30 ...done in 0.536024 seconds.
+      Regenerating: 2 file(s) changed at 2015-09-14 10:40:45 ...done in 0.579142 seconds.
+      Regenerating: 2 file(s) changed at 2015-09-14 10:41:04 ...done in 0.590286 seconds.
+      Regenerating: 2 file(s) changed at 2015-09-14 10:41:11 ...done in 0.547327 seconds.
+Configuration file: /Users/qihuan/workspace/java/qihigh.github.io/_config.yml
+            Source: /Users/qihuan/workspace/java/qihigh.github.io
+       Destination: /Users/qihuan/workspace/java/qihigh.github.io/_site
+      Generating... 
+                    done.
+ Auto-regeneration: enabled for '/Users/qihuan/workspace/java/qihigh.github.io'
+Configuration file: /Users/qihuan/workspace/java/qihigh.github.io/_config.yml
+    Server address: http://127.0.0.1:4000/
+  Server running... press ctrl-c to stop.
+      Regenerating: 2 file(s) changed at 2015-09-14 10:42:34 ...done in 0.537627 seconds.
+      Regenerating: 2 file(s) changed at 2015-09-14 10:42:43 ...done in 0.567234 seconds.
+Configuration file: /Users/qihuan/workspace/java/qihigh.github.io/_config.yml
+            Source: /Users/qihuan/workspace/java/qihigh.github.io
+       Destination: /Users/qihuan/workspace/java/qihigh.github.io/_site
+      Generating... 
+                    done.
+ Auto-regeneration: enabled for '/Users/qihuan/workspace/java/qihigh.github.io'
+Configuration file: /Users/qihuan/workspace/java/qihigh.github.io/_config.yml
+jekyll 2.5.3 | Error:  Address already in use - bind(2)
+      Regenerating: 1 file(s) changed at 2015-09-14 10:42:46 ...done in 0.550101 seconds.
+      Regenerating: 2 file(s) changed at 2015-09-14 10:42:54 ...done in 0.585289 seconds.
+      Regenerating: 2 file(s) changed at 2015-09-14 10:42:56 ...done in 0.632502 seconds.
+Configuration file: /Users/qihuan/workspace/java/qihigh.github.io/_config.yml
+            Source: /Users/qihuan/workspace/java/qihigh.github.io
+       Destination: /Users/qihuan/workspace/java/qihigh.github.io/_site
+      Generating... 
+                    done.
+ Auto-regeneration: enabled for '/Users/qihuan/workspace/java/qihigh.github.io'
+Configuration file: /Users/qihuan/workspace/java/qihigh.github.io/_config.yml
+    Server address: http://127.0.0.1:4000/
+  Server running... press ctrl-c to stop.
+      Regenerating: 1 file(s) changed at 2015-09-14 10:43:48 ...done in 0.582119 seconds.
+      Regenerating: 2 file(s) changed at 2015-09-14 10:44:07 ...done in 0.590837 seconds.
+      Regenerating: 1 file(s) changed at 2015-09-14 10:44:07 ...done in 0.666478 seconds.
+      Regenerating: 2 file(s) changed at 2015-09-14 10:44:35 ...done in 0.515263 seconds.
+      Regenerating: 2 file(s) changed at 2015-09-14 10:44:36 ...done in 0.712844 seconds.
+      Regenerating: 2 file(s) changed at 2015-09-14 10:44:48 ...done in 0.520916 seconds.
