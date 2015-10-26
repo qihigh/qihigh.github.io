@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>小米状态栏颜色</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.14" />
+  <link href="" rel="alternate" type="application/rss+xml" title="QiHuan" />
+  <link href="http://localhost:1313//css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://localhost:1313//css/hc.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  
+    
+    </head>
+    <body>
+<div class="nav-toggle"><i class="fa fa-bars fa-2x"></i> Herring Cove </div>
+      <div id = "wrapper">
+
+
+<div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="http://localhost:1313//"><p class="navbar-brand">QiHuan</p></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+					
+					
+					<li><a href="http://localhost:1313//">Home </a></li>
+					
+					<li><a href="http://localhost:1313//android/">Android </a></li>
+					
+					<li><a href="http://localhost:1313//back/">后台 </a></li>
+					
+					<li><a href="http://localhost:1313//about">关于 </a></li>
+					
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+       
+       <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+					<img src="pathOrUrlToImage" />
+          <li class="sidebar-brand"><a href="http://localhost:1313//"><h1 class="brand">QiHuan</h1></a><h3></h3></li>
+          <hr />
+					
+						<li><a href="http://localhost:1313//android/">Android </a></li>
+					
+						<li><a href="http://localhost:1313//back/">后台 </a></li>
+					
+						<li><a href="http://localhost:1313//about">关于 </a></li>
+					
+						<li><a href="http://localhost:1313//">Home </a></li>
+					
+          <hr />
+          <div id="social-wrapper">
+           
+           
+           
+           
+         </div>
+       </ul>
+     </div>
+
+
+
+     <div class="container">
+
+
+  <div id="article">
+   <div class="article-title">小米状态栏颜色</div>
+   <p class="meta"><small>&nbsp;<i class="fa fa-calendar-o"></i> 2015-10-26</small></p> <hr/>
+   <div class="post">
+     <p>小米的系统，最上方的状态栏是没有任何背景颜色的，当切换主题的时候就会遇到问题。当系统是白色的时候，如果切换到一个白色背景的主题，会导致上边状态栏的内容是分辨不出来的。（魅族的状态栏也没有颜色，但是他会根据当前背景，自动更新颜色，所以没有这个问题）</p>
+
+<p>这里通过反射的方式寻得了仅针对小米系统的一个解决方案:</p>
+
+<pre>
+/**
+ * 判断是否是小米，如果是的话，通过反射的方式，修改状态栏模式。
+ * @param window
+ */
+public static void statusBar(Window window) {
+    Boolean blackbg = Res.getBoolean(R.bool.isPop);
+    Class clazz = window.getClass();
+    try {
+        int tranceFlag = 0;
+        int darkModeFlag = 0;
+        Class layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
+
+        Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_TRANSPARENT");
+        tranceFlag = field.getInt(layoutParams);
+
+        field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
+        darkModeFlag = field.getInt(layoutParams);
+
+        Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
+
+        extraFlagField.invoke(window, blackbg ? tranceFlag : darkModeFlag, blackbg ? tranceFlag : darkModeFlag);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</pre>
+
+   </div>
+ </div>
+
+
+ <a href="https://twitter.com/share" class="twitter-share-button " data-size="small" data-count="none">Tweet</a>
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+ <ul class="pager">
+      &nbsp;<li class="previous"><a href="http://localhost:1313/android/flux_study/"> 尝试研究自己的flux架构</a></li>
+      &nbsp;<li class="next"><a href="http://localhost:1313/android/start/"> android start</a></li>
+</ul>
+
+
+
+    </ul>
+    </div>
+    <footer>
+
+        <p class="text-muted credit">&copy; . All rights reserved. </p>
+    </footer>
+ 
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/hc.js"></script>
+<script data-no-instant>document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+		+ ':1313/livereload.js?mindelay=10"></'
+        + 'script>')</script></body>
+
+</html>
+

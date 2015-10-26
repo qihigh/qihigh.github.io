@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>学习nginx的安装、配置</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.14" />
+  <link href="" rel="alternate" type="application/rss+xml" title="QiHuan" />
+  <link href="http://localhost:1313//css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://localhost:1313//css/hc.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  
+    
+    </head>
+    <body>
+<div class="nav-toggle"><i class="fa fa-bars fa-2x"></i> Herring Cove </div>
+      <div id = "wrapper">
+
+
+<div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="http://localhost:1313//"><p class="navbar-brand">QiHuan</p></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+					
+					
+					<li><a href="http://localhost:1313//">Home </a></li>
+					
+					<li><a href="http://localhost:1313//android/">Android </a></li>
+					
+					<li><a href="http://localhost:1313//back/">后台 </a></li>
+					
+					<li><a href="http://localhost:1313//about">关于 </a></li>
+					
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+       
+       <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+					<img src="pathOrUrlToImage" />
+          <li class="sidebar-brand"><a href="http://localhost:1313//"><h1 class="brand">QiHuan</h1></a><h3></h3></li>
+          <hr />
+					
+						<li><a href="http://localhost:1313//">Home </a></li>
+					
+						<li><a href="http://localhost:1313//android/">Android </a></li>
+					
+						<li><a href="http://localhost:1313//back/">后台 </a></li>
+					
+						<li><a href="http://localhost:1313//about">关于 </a></li>
+					
+          <hr />
+          <div id="social-wrapper">
+           
+           
+           
+           
+         </div>
+       </ul>
+     </div>
+
+
+
+     <div class="container">
+
+
+  <div id="article">
+   <div class="article-title">学习nginx的安装、配置</div>
+   <p class="meta"><small>&nbsp;<i class="fa fa-calendar-o"></i> 2015-10-26</small></p> <hr/>
+   <div class="post">
+     
+
+<h4 id="nginx的本地安装:1da1b7d5c01ab3bac077892a9b3f8ca3">nginx的本地安装</h4>
+
+<ol>
+<li><p>首先是要在本地安装一个nginx服务器，来看看最基本的nginx是神马样子的。安装方式并不复杂，而且nginx完全是通过c来编写的，依赖并不多，整个服务器才不到1Mb。</p>
+
+<blockquote>
+<p>特殊的，nginx是有很多第三方包的，而且实际调试使用时基本是必须的，如果一个一个安装显得过于繁琐，这里有一个配置好了各个常用插件的nginx的版本：openresty,下载下来进行安装即可。mac下需要首先安装<code>PCRE</code>，然后通过
+<pre>
+$ ./configure \
+         &ndash;with-cc-opt=&ldquo;-I/usr/local/include&rdquo; \
+         &ndash;with-ld-opt=&ldquo;-L/usr/local/lib&rdquo; \ </pre>
+进行配置，然后通过<code>make &amp;&amp; make install</code> 进行安装</p>
+</blockquote></li>
+
+<li><p>本地运行环境是mac，需要安装一个perl的正则解析PCRE
+<pre>
+$ cd ~/Downloads
+$ tar xvzf pcre-8.5
+$ cd pcre-8.5
+$ sudo ./configure &ndash;prefix=/usr/local
+$ sudo make
+$ sudo make install </pre></p></li>
+
+<li><p>然后安装nginx
+<pre>
+$ cd ~/Downloads
+$ tar xvzf nginx-1.6.0.tar.gz
+$ cd nginx-1.6.0
+$ sudo ./configure &ndash;prefix=/usr/local/nginx &ndash;with-http_ssl_module &ndash;with-cc-opt=&ldquo;-Wno-deprecated-declarations&rdquo;
+$ sudo make
+$ sudo make install </pre></p></li>
+
+<li><p>尝试启动nginx，
+<pre>
+$ cd /usr/local/nginx/sbin
+$ sudo ./nginx  </pre>
+然后访问<code>localhost</code>,如果页面显示<code>Welcome to nginx!</code>,则说明nginx安装成功并成功启动。</p></li>
+
+<li><p>停止nginx
+<pre>
+sudo ./nginx -s stop    </pre>
+之后可以将nginx加入到path中去。</p></li>
+
+<li><p>如果nginx停止失败，可以通过kill命令来通知nginx停止</p>
+
+<ul>
+<li>首先查看nginx运行的情况 <code>ps -ef|grep nginx</code></li>
+<li>找到master进程，它的编号就是主进程号了，通过 <code>sudo kill -QUIT 8339 将其杀掉</code>。</li>
+</ul></li>
+
+<li><p>修改了配置文件，首先校验配置文件是否正确
+<pre>
+nginx -t -c nginx.conf
+或者
+nginx -t </pre></p></li>
+
+<li><p>不重启nginx，应用新的配置文件.（首先要使用步骤7校验配置文件）
+<pre>
+nginx -s reload </pre></p></li>
+</ol>
+
+   </div>
+ </div>
+
+
+ <a href="https://twitter.com/share" class="twitter-share-button " data-size="small" data-count="none">Tweet</a>
+ <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+ <ul class="pager">
+      &nbsp;<li class="previous"><a href="http://localhost:1313/back/blog_generate/"> blog生成命令相关</a></li>
+      &nbsp;<li class="next"><a href="http://localhost:1313/back/mysql_dump/"> Mysql导出表结构及表数据 mysqldump用法</a></li>
+</ul>
+
+
+
+    </ul>
+    </div>
+    <footer>
+
+        <p class="text-muted credit">&copy; . All rights reserved. </p>
+    </footer>
+ 
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/hc.js"></script>
+<script data-no-instant>document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+		+ ':1313/livereload.js?mindelay=10"></'
+        + 'script>')</script></body>
+
+</html>
+
