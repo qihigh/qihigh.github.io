@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>gohttp搭建文件传输</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.14" />
+  <link href="" rel="alternate" type="application/rss+xml" title="齐欢的博客" />
+  <link href="http://qihigh.github.io/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://qihigh.github.io/css/hc.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  
+    
+    </head>
+    <body>
+<div class="nav-toggle"><i class="fa fa-bars fa-2x"></i> Herring Cove </div>
+      <div id = "wrapper">
+
+
+<div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="http://qihigh.github.io/"><p class="navbar-brand">齐欢的博客</p></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+					
+					
+					<li><a href="http://qihigh.github.io">1.所有 </a></li>
+					
+					<li><a href="http://qihigh.github.ioandroid/">2.安卓 </a></li>
+					
+					<li><a href="http://qihigh.github.ioback/">3.后台 </a></li>
+					
+					<li><a href="http://qihigh.github.ioabout">4.关于 </a></li>
+					
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+       
+       <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+					<img src="https://avatars0.githubusercontent.com/u/1587551?v=3&amp;s=460" />
+          <li class="sidebar-brand"><a href="http://qihigh.github.io/"><h1 class="brand">齐欢的博客</h1></a><h3></h3></li>
+          <hr />
+					
+						<li><a href="http://qihigh.github.ioabout">4.关于 </a></li>
+					
+						<li><a href="http://qihigh.github.io">1.所有 </a></li>
+					
+						<li><a href="http://qihigh.github.ioandroid/">2.安卓 </a></li>
+					
+						<li><a href="http://qihigh.github.ioback/">3.后台 </a></li>
+					
+          <hr />
+          <div id="social-wrapper">
+           
+           
+           
+           
+         </div>
+       </ul>
+     </div>
+
+
+
+     <div class="container">
+
+
+  <div id="article">
+   <div class="article-title">gohttp搭建文件传输</div>
+   <p class="meta"><small>&nbsp;<i class="fa fa-calendar-o"></i> 2015-11-02</small></p> <hr/>
+   <div class="post">
+     
+
+<h3 id="搭建原因:1796173be1a42fe5f5a2b59aa2abedbc">搭建原因</h3>
+
+<p>在服务器端用gohttp搭建快捷上传下载的服务，可以简化本地和服务器端传输文件过程中的复杂度。</p>
+
+<p>搭建文件服务之前，本地和服务器端文件传输都是通过ssh方式的scp进行拷贝，仅能通过命令行进行上传下载，颇为不方便。</p>
+
+<p>所以我一直在找一种可以方便的在服务器端和客户端进行文件传输的简便方式，最好是有界面的，毕竟这类操作图形界面会大大简便于命令行界面。</p>
+
+<p>曾经考虑过使用ftp服务器，但是这个搭建的时候出现了一些问题，而且ftp权限控制繁琐，搭建出来也并没有想象中的好使，下载问题解决了，上传问题仍然由于权限问题悬而未决。</p>
+
+<p>曾经想自己写一个服务器端的简单服务，用于通过http服务来做一个文件列表服务，就像php自带的文件列表一样，同时还要包含上传的功能，但最终由于时间问题还是尚未开始的状态。</p>
+
+<p>今天有幸遇到一个开发者，他在github上开源了一个这样的服务 <a href="https://github.com/codeskyblue/gohttp">gohttp</a> ,并且比我想象的功能还要多，更关键的是他使用的go语言开发，最终的输出文件就一个可执行性文件，不需要复杂的服务器环境，简直是我等懒人福音。</p>
+
+<p>本地试了试，界面漂亮，执行起来也方便，于是准备直接用起来。</p>
+
+<p>接下来就介绍一下我搭建这个服务的流程。</p>
+
+<h3 id="搭建过程:1796173be1a42fe5f5a2b59aa2abedbc">搭建过程</h3>
+
+<ol>
+<li><p>首先是登陆到服务器端</p>
+
+<p>服务器是linux，所以去下载一个linux端的可执行文件。
+<code>
+wget http://dn-gobuild5.qbox.me/gorelease/codeskyblue/gohttp/master/linux-amd64/gohttp.zip 
+unzip gohttp.zip 
+</code>
+得到文件 <code>gohttp</code></p></li>
+
+<li><p>尝试运行</p>
+
+<p>执行命令 <code>gohttp --port 8000 --root .</code> , 可以看到服务可以运行起来。
+如果想校验的话，可以再开一个终端，请求一下这个服务 <code>wget 127.0.0.1:8000</code> , 看看是否正确输出了文件。</p></li>
+
+<li><p>使外网能够访问。</p>
+
+<p>一般的，直接将其本地ip更新为外网ip即可。但是这里用的是云服务器，云服务器一般只对外开放几个特定的端口，这里就需要一些特殊处理，一般的使用nginx来监听80端口，并分析域名并指向对应的服务。</p></li>
+
+<li><p>使用nginx代理请求</p>
+
+<p>编辑nginx配置文件
+<pre>
+client_max_body_size 20m; // 配置能上传的最大文件大小
+server {
+        listen 80;
+        server_name  files.weico.com;//指定访问的域名
+        location / {
+                proxy_pass <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a>;
+                proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+        }
+}
+</pre>
+校验一下nginx的配置文件是否正确 <code>nginx -t</code>,
+校验ok之后，应用配置文件 <code>nginx -s reload</code>。
+此时通过 <code>files.weico.com</code> 即可进行访问。</p></li>
+
+<li><p>最终搭建的结果
+<img src="/images/QQ20151102-2.png" alt="结果1" />
+
+<img src="/images/QQ20151102-3.png" alt="结果2" />
+</p></li>
+</ol>
+
+   </div>
+ </div>
+
+ <ul class="pager">
+      &nbsp;<li class="previous"><a href="http://qihigh.github.io/android/sina_new_api/"> sina新接口问题</a></li>
+      &nbsp;<li class="next"><a href="http://qihigh.github.io/back/aliyun/"> 阿里云后台尝试</a></li>
+</ul>
+
+
+
+    </ul>
+    </div>
+    <footer>
+
+        <p class="text-muted credit">&copy; . All rights reserved. </p>
+    </footer>
+ 
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/hc.js"></script>
+</body>
+
+</html>
+

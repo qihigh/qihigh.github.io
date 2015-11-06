@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>阿里云后台尝试</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.14" />
+  <link href="" rel="alternate" type="application/rss+xml" title="齐欢的博客" />
+  <link href="http://qihigh.github.io/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://qihigh.github.io/css/hc.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  
+    
+    </head>
+    <body>
+<div class="nav-toggle"><i class="fa fa-bars fa-2x"></i> Herring Cove </div>
+      <div id = "wrapper">
+
+
+<div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="http://qihigh.github.io/"><p class="navbar-brand">齐欢的博客</p></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+					
+					
+					<li><a href="http://qihigh.github.ioandroid/">2.安卓 </a></li>
+					
+					<li><a href="http://qihigh.github.ioback/">3.后台 </a></li>
+					
+					<li><a href="http://qihigh.github.ioabout">4.关于 </a></li>
+					
+					<li><a href="http://qihigh.github.io">1.所有 </a></li>
+					
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+       
+       <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+					<img src="https://avatars0.githubusercontent.com/u/1587551?v=3&amp;s=460" />
+          <li class="sidebar-brand"><a href="http://qihigh.github.io/"><h1 class="brand">齐欢的博客</h1></a><h3></h3></li>
+          <hr />
+					
+						<li><a href="http://qihigh.github.io">1.所有 </a></li>
+					
+						<li><a href="http://qihigh.github.ioandroid/">2.安卓 </a></li>
+					
+						<li><a href="http://qihigh.github.ioback/">3.后台 </a></li>
+					
+						<li><a href="http://qihigh.github.ioabout">4.关于 </a></li>
+					
+          <hr />
+          <div id="social-wrapper">
+           
+           
+           
+           
+         </div>
+       </ul>
+     </div>
+
+
+
+     <div class="container">
+
+
+  <div id="article">
+   <div class="article-title">阿里云后台尝试</div>
+   <p class="meta"><small>&nbsp;<i class="fa fa-calendar-o"></i> 2015-10-29</small></p> <hr/>
+   <div class="post">
+     
+
+<p>今天尝试了一下阿里云，为了后期服务迁移到阿里云做准备。
+需要做的事情:</p>
+
+<pre><code>1. 创建一个服务器
+2. 设置ssh登陆
+3. 运行一个基本的服务
+4. 安装nginx，mysql，redis
+5. 运行一个python的程序
+6. 运行一个go的程序
+</code></pre>
+
+<p>好了接下来介绍一下尝试的过程。</p>
+
+<h3 id="申请账号:dbfe7d96810df03758892b85f573ce8c">申请账号</h3>
+
+<p>这里使用的是 773731391@qq.com 的邮箱，登陆之后需要绑定支付宝进行实名认证。</p>
+
+<p>认证完成之后，有15天得试用期，然后选择建立云服务器。</p>
+
+<h3 id="选择服务器:dbfe7d96810df03758892b85f573ce8c">选择服务器</h3>
+
+<p>这里服务器有两种，一种是云引擎ACE，大致和SAE、BAE差不多，主要是面向的博客用户，他提供的是各种服务，用户不会直面服务器的复杂配置，这里当然不适合我。还有一种是云服务器ECS，这种是直接分配一个服务器给用户，可以选择系统，进行软件的安装和配置，这种自由度较高，当然费用也比较高，用起来和自己的服务器似的，这里选择这种服务器。</p>
+
+<p>新建一个服务器，操作系统选择Ubuntu14 64G，其他都选择默认的，内存1G，硬盘20G。完成之后，在云服务器列表中就可以看到新建的服务器了。</p>
+
+<h3 id="云服务web管理:dbfe7d96810df03758892b85f573ce8c">云服务web管理</h3>
+
+<p>web管理端提供了服务器的简单管理功能。</p>
+
+<p>现在在实例列表中可以看到有一个实例，实例ID是随机生成的，IP地址有一个内网Ip和外网Ip，还有服务器的运行状态，在更多中，可以看到连接管理终端，这里是在浏览器端建立一个长连接，连接到服务器的console控制台，第一次连接需要设置一个密码（这个密码并不是服务器端的密码）。</p>
+
+<p>服务器的关闭和重启也是在web管理端完成的。</p>
+
+<p>在管理中，更新服务器端的密码，初始密码肯定是要换的。然后就可以通过ssh的方式登录到远程服务器。</p>
+
+<h3 id="登陆到服务器:dbfe7d96810df03758892b85f573ce8c">登陆到服务器</h3>
+
+<p><code>ssh root@112.126.74.74</code> (这里是服务器的外网IP) 输入密码，即可完成登陆。</p>
+
+<p>这里由于ssh登陆还需要密码，固第一步先将自己本机的sshkey添加到服务器上.</p>
+
+<pre><code>cd ~
+mkdir .ssh
+cd .ssh
+echo &quot;我的sshkey&quot; &gt;&gt; authorized_keys
+</code></pre>
+
+<p>然后断开连接，重新使用ssh登陆，发现不再提示输入密码。完成ssh登陆的设置。</p>
+
+<h3 id="安装amh服务:dbfe7d96810df03758892b85f573ce8c">安装AMH服务</h3>
+
+<p>接下来安装一个AMH的php服务，这里集成了很多东西:</p>
+
+<ol>
+<li>服务器的管理</li>
+<li>mysql、php、ftp、nginx的安装和默认配置</li>
+<li>mysql的管理界面（类似php）</li>
+<li>方便的建站功能。</li>
+<li>其他功能详细参见  (网站)[<a href="http://bbs.aliyun.com/read/143639.html?spm=5176.bbsr253866.0.0.Ppby9K">http://bbs.aliyun.com/read/143639.html?spm=5176.bbsr253866.0.0.Ppby9K</a>]</li>
+</ol>
+
+<p>安装的过程就是下载一个脚本，然后执行</p>
+
+<p><code>wget http://amh.sh/file/AMH/4.2/amh.sh &amp;&amp; chmod 775 amh.sh &amp;&amp; ./amh.sh 2&gt;&amp;1 | tee amh.log</code></p>
+
+<p>安装过程中会提示输入系统密码和mysql数据库的密码。</p>
+
+<h4 id="安装过程中遇到问题-php安装失败:dbfe7d96810df03758892b85f573ce8c">安装过程中遇到问题，php安装失败。</h4>
+
+<p>提示的异常信息</p>
+
+<pre><code>tar -xf ams-1.5.0107-02.tar.gz ing...
+[OK] ams-1.5.0107-02 install completed.
+Sorry, Failed to install AMH
+Please contact us: http://amh.sh
+</code></pre>
+
+<p>但实际上这里并没有提供出有用的信息，将日志向上查看，发现是php的安装失败导致的失败。</p>
+
+<p>主要就是php依赖的一个库没有正常安装上（这个废了好大力气才确认这个库）。首先找到AMH安装过程中软件包得下载地址和解压地址。AMH安装过程中会建立一个用户，文件会放在这个用户下，安装完成之后这个用户和文件都会被删掉。这个账户下找到各个软件的安装目录，主要是php的安装目录。重新执行一遍php的安装过程</p>
+
+<pre><code>./configure 。。。此处省略n多配置
+make 
+make install
+</code></pre>
+
+<p>执行的过程中发现异常信息，
+<code>Compile fails &quot;configure: error: Please reinstall the iconv library&quot;</code></p>
+
+<p>也就是说 <code>/usr/local/libiconv</code> 这个库安装失败了，导致的php安装失败。之后在php目录的上一级目录，也就是AMH的安装包目录下发现有这个库，于是重新安装一下这个库。</p>
+
+<p>安装的过程中曝出了具体的错误信息，google了一下，网上说是源码有问题，（源码找不到了，这里就不贴了暂时）遂去修改源码并重新编译安装，完成。之后重新运行AMH的安装脚本（AMH的安装脚本中包含了php的编译和安装，就不需要自己手工去编译安装了）</p>
+
+<p>之后AMH顺利安装完成。访问 <code>112.126.74.74:8888</code> 打开AMH的登录页面。</p>
+
+<h3 id="登录后台-查看各个服务:dbfe7d96810df03758892b85f573ce8c">登录后台，查看各个服务</h3>
+
+<p>nginx -t 发现服务正常运行着。
+mysql -uroot -p 然后输入密码，正常登录。
+通过AMH管理页面，可以清楚的看到当前服务器的CPU使用状态等等信息。</p>
+
+<p>通过AMH建立一个站点</p>
+
+<ol>
+<li>添加一个虚拟主机 （也就是一个php服务站）</li>
+<li>添加FTP，FTP的根目录指向刚刚新建的虚拟主机根目录。</li>
+<li>通过快速建库新建一个mysql数据库</li>
+<li>模块扩展中有一个AMFTP，激活这个模块，就可以通过web端进行FTP文件上传和下载了，非常方便（再也不用scp进行文件拷贝了，省事很多）</li>
+<li>进入服务器，看到刚刚的站点就在 /home/wwwroot/ 下，上传的文件也在对应的web目录下。</li>
+</ol>
+
+<h3 id="数据库的管理:dbfe7d96810df03758892b85f573ce8c">数据库的管理</h3>
+
+<p>非图形界面，自然就是mysql命令行了。</p>
+
+<p>数据库的管理部分，使用AMH提供的足够用了，使用上和phpmyadmin很像。当然也可以自己换成phpmyadmin。</p>
+
+<p>如果想通过本机的客户端管理数据库也是可以的,这里使用的是 <code>Navicat for MySql</code>。由于mysql默认是不支持远程连接，只支持本地连接（最好不要开放外网连接），这里通过ssh的方式进行连接。</p>
+
+<ol>
+<li>新建一个连接，打开ssh选项卡，选中 <code>Use SSH tunnel</code>,输入IP和密码（如果是ssh证书方式，可以指向整数文件）</li>
+<li>回到General中，ip填写 <code>127.0.0.1</code> ，输入用户名和密码，点击 <code>Test Connection</code> 校验是否连接成功.</li>
+<li>点击OK，完成连接</li>
+</ol>
+
+<p>通过AMH快速建表的时候，实际上是可以指定该数据库是否支持外网的，在允许链接来源地址中填写<code>%</code>，这样的话通过本地客户端可以直接连到数据库（用这里添加的用户名和密码，不是数据库本身的），不需要ssh登陆，不过连过去之后也只能看到这一个表。</p>
+
+<h3 id="安装redis:dbfe7d96810df03758892b85f573ce8c">安装redis</h3>
+
+<p>安装redis非常简单，直接去官网下载最新的tar包即可.redis官网地址：<a href="http://www.redis.io/">http://www.redis.io/</a></p>
+
+<ol>
+<li></li>
+</ol>
+
+<pre><code> $ wget http://download.redis.io/releases/redis-3.0.5.tar.gz
+ $ tar xzf redis-3.0.5.tar.gz
+ $ cd redis-3.0.5
+ $ make
+</code></pre>
+
+<ol>
+<li><p>编译完成之后，redis-server生成在src目录下。将目录下得 redis-server ,redis-cli,redis-benchmark, ../redis.conf 移到 <code>/usr/local/redis</code> 下</p></li>
+
+<li><p>将目录 <code>/usr/local/redis</code> 添加到环境变量中，echo &ldquo;export PATH=$PATH:\&ldquo;/usr/local/redis\&ldquo;&rdquo; &gt;&gt; .bash_profile ,并使其生效。</p></li>
+
+<li><p>启动redis-server <code>nohup redis-server redis.conf &amp;</code> ,然后通过 redis-cli 进行测试服务是否正常启动</p></li>
+</ol>
+
+<h3 id="安装python相关模块:dbfe7d96810df03758892b85f573ce8c">安装python相关模块</h3>
+
+<p>安装的时候，需要两个python的工具，pip和virtualenv，通过apt-get 进行安装即可。</p>
+
+<pre><code>virtualenv virtual
+cd virtual
+./bin/pip install futures
+./bin/pip install tornado
+./bin/pip install oursql
+./bin/pip install DBUtils
+./bin/pip install nose
+./bin/pip install apscheduler
+./bin/pip install BeautifulSoup
+./bin/pip install qiniu==6.1.9
+./bin/pip install PIL
+</code></pre>
+
+<h4 id="安装python的oursql模块时-遇到问题:dbfe7d96810df03758892b85f573ce8c">安装python的oursql模块时，遇到问题：</h4>
+
+<ol>
+<li><p>报错信息: <code>tornado/speedups.c:2:20: fatal error: Python.h: No such file or directory
+#include &lt;Python.h&gt;</code></p>
+
+<p>指python的开发版本是需要的 apt-get install python-dev</p></li>
+
+<li><p>运行<code>sudo pip install oursql</code>,再次报错: <code>oursqlx/compat.h:13:19: fatal error: mysql.h: No such file or directory
+#include &quot;mysql.h&quot;</code></p>
+
+<p>指oursql编译的时候，依赖的本地so文件不存在，需要进行安装：
+<code>sudo apt-get install libmysqlcppconn-dev</code></p>
+
+<p><code>sudo apt-get install libmysqlclient-dev</code></p></li>
+
+<li><p>再次执行<code>sudo pip install oursql</code> ,打出一些警告信息，安装成功。</p></li>
+</ol>
+
+   </div>
+ </div>
+
+ <ul class="pager">
+      &nbsp;<li class="previous"><a href="http://qihigh.github.io/back/gohttpserver/"> gohttp搭建文件传输</a></li>
+      &nbsp;<li class="next"><a href="http://qihigh.github.io/android/myLocalImageLoader/"> 本地图片加载方案(强化picasso)</a></li>
+</ul>
+
+
+
+    </ul>
+    </div>
+    <footer>
+
+        <p class="text-muted credit">&copy; . All rights reserved. </p>
+    </footer>
+ 
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/hc.js"></script>
+</body>
+
+</html>
+

@@ -1,13 +1,291 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Androids on QiHuan</title>
+    <title>Androids on 齐欢的博客</title>
     <link>http://qihigh.github.io/android/</link>
-    <description>Recent content in Androids on QiHuan</description>
+    <description>Recent content in Androids on 齐欢的博客</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Mon, 26 Oct 2015 15:39:24 +0800</lastBuildDate>
+    <language>zh_CN</language>
+    <lastBuildDate>Thu, 05 Nov 2015 11:35:34 +0800</lastBuildDate>
     <atom:link href="http://qihigh.github.io/android/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>sina新接口问题</title>
+      <link>http://qihigh.github.io/android/sina_new_api/</link>
+      <pubDate>Thu, 05 Nov 2015 11:35:34 +0800</pubDate>
+      
+      <guid>http://qihigh.github.io/android/sina_new_api/</guid>
+      <description>
+
+&lt;h3 id=&#34;有问题的接口:39b0bd26443eb9e506e3b7b5698b2b2b&#34;&gt;有问题的接口&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;2/statuses/timeline_batch.json  没找到，我们在频道页需要使用，抓指定用户的微博timeline&lt;/li&gt;
+&lt;li&gt;2/statuses/show_batch.json      没找到，我们在热门微博和热门话题里需要使用&lt;/li&gt;
+&lt;li&gt;上传图片需要调整上传机制&lt;/li&gt;
+&lt;li&gt;调整私信附件上传机制&lt;/li&gt;
+&lt;li&gt;私信无法发送&lt;/li&gt;
+&lt;li&gt;陌生人私信接口不一样，走的IM长连接&lt;/li&gt;
+&lt;li&gt;2/friendships/friends/in_common.json   共同关注接口，没找到&lt;/li&gt;
+&lt;li&gt;2/friendships/friends/bilateral.json   相互关注接口，没找到&lt;/li&gt;
+&lt;li&gt;赞接口改为set_like, cancel_like, 参数未知&lt;/li&gt;
+&lt;li&gt;无法更改用户头像&lt;/li&gt;
+&lt;li&gt;2/account/profile/basic_update.json 无法更新用户信息&lt;/li&gt;
+&lt;li&gt;2/place/pois/search.json接口不存在了，用2/place/nearby/pois，参数加q，传入keyword即可&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;处理中的接口:39b0bd26443eb9e506e3b7b5698b2b2b&#34;&gt;处理中的接口&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; checked=&#34;checked&#34; disabled=&#34;true&#34;&gt; SearchApi &lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; checked=&#34;checked&#34; disabled=&#34;true&#34;&gt; UserApi &lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; checked=&#34;checked&#34; disabled=&#34;true&#34;&gt; MyAccountApi &lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; checked=&#34;checked&#34; disabled=&#34;true&#34;&gt; SuggestingApi  &lt;/input&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;input type=&#34;checkbox&#34; checked=&#34;checked&#34; disabled=&#34;true&#34;&gt; BatchTimeLineApi  &lt;/input&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;这里暂时使用的Gsid+srouceAppkey方式代替accessToken。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;input type=&#34;checkbox&#34; checked=&#34;checked&#34; disabled=&#34;true&#34;&gt; CommentApi &lt;/input&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;input type=&#34;checkbox&#34; disabled=&#34;false&#34;&gt; 发布评论、转发、微博 &lt;/input&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;特殊的，上传图片接口，发送多图的接口不对，暂时用gsid方式代替accessToken&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;waiting&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>本地图片加载方案(强化picasso)</title>
+      <link>http://qihigh.github.io/android/myLocalImageLoader/</link>
+      <pubDate>Tue, 27 Oct 2015 18:01:38 +0800</pubDate>
+      
+      <guid>http://qihigh.github.io/android/myLocalImageLoader/</guid>
+      <description>&lt;p&gt;由于最新的picasso加载本地图片时，如果图片是相机直接拍摄的，一般尺寸会非常大，picasso处理不了这样的大图。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Glide应该可以处理,没有尝试.&lt;/li&gt;
+&lt;li&gt;Ion应该是可以的.&lt;/li&gt;
+&lt;li&gt;Facebook 的 Fresco 是可以的.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这里不想因为这个问题就换掉整个picasso，然后就打算自己写一个。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.squareup.picasso;
+
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.support.v4.util.LruCache;
+import android.text.TextUtils;
+import android.widget.ImageView;
+
+import com.eico.weico.WApplication;
+import com.eico.weico.utility.BitmapUtil;
+
+import java.util.concurrent.ExecutorService;
+
+/**
+ * Created by qihuan on 15/10/27.
+ */
+public class MyLoadFileLoader {
+    private static MyLoadFileLoader instance;
+    //线程池
+    private final ExecutorService threadPool;
+    //内存缓存
+    private final LruCache&amp;lt;String, Bitmap&amp;gt; cache;
+
+    static {
+        instance = new MyLoadFileLoader();
+    }
+
+
+    private MyLoadFileLoader() {
+        threadPool = WApplication.cThreadPool;
+        cache = new LruCache(50);
+    }
+
+    public static MyLoadFileLoader getInstance() {
+        return instance;
+    }
+
+    /**
+     * 触发加载
+     * 1. 缓存中有，直接从缓存中获取
+     * 2. 缓存中没有，读取图片，并采用ThumbUtil进行方图裁切。
+     *
+     * @param aPath     本地图片路径
+     * @param aSize     最终显示的大小（仅支持方图）
+     * @param aResId    placeholder
+     * @param imageView 目标imageView
+     */
+    public void load(final String aPath, final int aSize, int aResId, final ImageView imageView) {
+        if (TextUtils.isEmpty(aPath)) {
+            //失败默认使用resId
+            if (aResId &amp;gt; 0) {
+                imageView.setImageResource(aResId);
+            }
+            return;
+        }
+        //防止图片串位
+        imageView.setTag(aPath);
+        //缓存处理
+        Bitmap cachedBitmap = cache.get(aPath);
+        if (null != cachedBitmap) {
+            imageView.setImageBitmap(cachedBitmap);
+            return;
+        }
+
+        //placeholder
+        if (aResId &amp;gt; 0) {
+            imageView.setImageResource(aResId);
+        }
+
+        final Bitmap[] bitmaps = new Bitmap[1];
+
+        //回归UI线程处理
+        final Handler handler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (aPath.equals(imageView.getTag()) &amp;amp;&amp;amp; null != bitmaps[0]) {
+                    imageView.setImageBitmap(bitmaps[0]);
+                }
+                return false;
+            }
+        });
+
+        //本地读取裁切任务，添加到线程池
+        threadPool.submit(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap source = BitmapUtil.decodeBitmap(aPath, 200);
+                Bitmap temp = ThumbnailUtils.extractThumbnail(source, aSize, aSize);
+                if (null != temp &amp;amp;&amp;amp; temp.getWidth() &amp;gt; 0) {
+                    //图片添加到缓存，通知UI线程更新
+                    bitmaps[0] = temp;
+                    handler.sendEmptyMessage(0);
+                    cache.put(aPath, temp);
+                }
+            }
+        });
+
+    }
+
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>picasso滑动暂停加载</title>
+      <link>http://qihigh.github.io/android/picasso/</link>
+      <pubDate>Tue, 27 Oct 2015 11:20:35 +0800</pubDate>
+      
+      <guid>http://qihigh.github.io/android/picasso/</guid>
+      <description>&lt;p&gt;需要在滑动的listView中进行监听，这里有两个listener，一个是针对listView的，一个是针对RecyclerView的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.squareup.picasso;
+
+import android.content.Context;
+import android.widget.AbsListView;
+
+public class SampleScrollListener implements AbsListView.OnScrollListener {
+    private final Context context;
+    private static final Object scrollTag = new Object(); // this can be static or not, depending what u want to achieve
+
+    public SampleScrollListener(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        final Picasso picasso = Picasso.with(context);
+        if (scrollState == SCROLL_STATE_IDLE || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
+            picasso.resumeTag(scrollTag);
+        } else {
+            picasso.pauseTag(scrollTag);
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                         int totalItemCount) {
+        // Do nothing.
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.ewintory.udacity.popularmovies.utils;
+
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
+
+
+/**
+ * Simple {@link RecyclerView.OnScrollListener} implementation which
+ * pauses/resumes Picasso&#39;s tagged requests
+ *
+ * @author Emin Yahyayev
+ * @see {@link RequestCreator#tag(Object)}
+ */
+public final class PicassoScrollListener extends RecyclerView.OnScrollListener {
+
+
+    private static final int DEFAULT_SENSITIVITY = 120;
+
+
+    private Picasso mPicasso;
+    private int mPauseSensitivity; // scroll sensitivity
+    private Object mTag;
+
+
+    public PicassoScrollListener(Context context, Object tag) {
+        this(Picasso.with(context), tag, DEFAULT_SENSITIVITY);
+    }
+
+
+    public PicassoScrollListener(Picasso picasso, Object tag) {
+        this(picasso, tag, DEFAULT_SENSITIVITY);
+    }
+
+
+    public PicassoScrollListener(Context context, Object tag, int pauseSensitivity) {
+        this(Picasso.with(context), tag, pauseSensitivity);
+    }
+
+
+    public PicassoScrollListener(Picasso picasso, Object tag, int pauseSensitivity) {
+        mPicasso = picasso;
+        mPauseSensitivity = pauseSensitivity;
+        mTag = tag;
+    }
+
+
+    @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        if (Math.abs(dy) &amp;gt; mPauseSensitivity)
+            mPicasso.pauseTag(mTag);
+        else
+            mPicasso.resumeTag(mTag);
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>adb识别新的usb连接</title>

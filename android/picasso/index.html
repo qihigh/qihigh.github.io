@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>picasso滑动暂停加载</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.14" />
+  <link href="" rel="alternate" type="application/rss+xml" title="齐欢的博客" />
+  <link href="http://qihigh.github.io/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://qihigh.github.io/css/hc.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  
+    
+    </head>
+    <body>
+<div class="nav-toggle"><i class="fa fa-bars fa-2x"></i> Herring Cove </div>
+      <div id = "wrapper">
+
+
+<div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="http://qihigh.github.io/"><p class="navbar-brand">齐欢的博客</p></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+					
+					
+					<li><a href="http://qihigh.github.io">1.所有 </a></li>
+					
+					<li><a href="http://qihigh.github.ioandroid/">2.安卓 </a></li>
+					
+					<li><a href="http://qihigh.github.ioback/">3.后台 </a></li>
+					
+					<li><a href="http://qihigh.github.ioabout">4.关于 </a></li>
+					
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+       
+       <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+					<img src="https://avatars0.githubusercontent.com/u/1587551?v=3&amp;s=460" />
+          <li class="sidebar-brand"><a href="http://qihigh.github.io/"><h1 class="brand">齐欢的博客</h1></a><h3></h3></li>
+          <hr />
+					
+						<li><a href="http://qihigh.github.io">1.所有 </a></li>
+					
+						<li><a href="http://qihigh.github.ioandroid/">2.安卓 </a></li>
+					
+						<li><a href="http://qihigh.github.ioback/">3.后台 </a></li>
+					
+						<li><a href="http://qihigh.github.ioabout">4.关于 </a></li>
+					
+          <hr />
+          <div id="social-wrapper">
+           
+           
+           
+           
+         </div>
+       </ul>
+     </div>
+
+
+
+     <div class="container">
+
+
+  <div id="article">
+   <div class="article-title">picasso滑动暂停加载</div>
+   <p class="meta"><small>&nbsp;<i class="fa fa-calendar-o"></i> 2015-10-27</small></p> <hr/>
+   <div class="post">
+     <p>需要在滑动的listView中进行监听，这里有两个listener，一个是针对listView的，一个是针对RecyclerView的</p>
+
+<pre><code>package com.squareup.picasso;
+
+import android.content.Context;
+import android.widget.AbsListView;
+
+public class SampleScrollListener implements AbsListView.OnScrollListener {
+    private final Context context;
+    private static final Object scrollTag = new Object(); // this can be static or not, depending what u want to achieve
+
+    public SampleScrollListener(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        final Picasso picasso = Picasso.with(context);
+        if (scrollState == SCROLL_STATE_IDLE || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
+            picasso.resumeTag(scrollTag);
+        } else {
+            picasso.pauseTag(scrollTag);
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                         int totalItemCount) {
+        // Do nothing.
+    }
+}
+</code></pre>
+
+<pre><code>package com.ewintory.udacity.popularmovies.utils;
+
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
+
+
+/**
+ * Simple {@link RecyclerView.OnScrollListener} implementation which
+ * pauses/resumes Picasso's tagged requests
+ *
+ * @author Emin Yahyayev
+ * @see {@link RequestCreator#tag(Object)}
+ */
+public final class PicassoScrollListener extends RecyclerView.OnScrollListener {
+
+
+    private static final int DEFAULT_SENSITIVITY = 120;
+
+
+    private Picasso mPicasso;
+    private int mPauseSensitivity; // scroll sensitivity
+    private Object mTag;
+
+
+    public PicassoScrollListener(Context context, Object tag) {
+        this(Picasso.with(context), tag, DEFAULT_SENSITIVITY);
+    }
+
+
+    public PicassoScrollListener(Picasso picasso, Object tag) {
+        this(picasso, tag, DEFAULT_SENSITIVITY);
+    }
+
+
+    public PicassoScrollListener(Context context, Object tag, int pauseSensitivity) {
+        this(Picasso.with(context), tag, pauseSensitivity);
+    }
+
+
+    public PicassoScrollListener(Picasso picasso, Object tag, int pauseSensitivity) {
+        mPicasso = picasso;
+        mPauseSensitivity = pauseSensitivity;
+        mTag = tag;
+    }
+
+
+    @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        if (Math.abs(dy) &gt; mPauseSensitivity)
+            mPicasso.pauseTag(mTag);
+        else
+            mPicasso.resumeTag(mTag);
+    }
+}
+
+</code></pre>
+
+   </div>
+ </div>
+
+ <ul class="pager">
+      &nbsp;<li class="previous"><a href="http://qihigh.github.io/android/myLocalImageLoader/"> 本地图片加载方案(强化picasso)</a></li>
+      &nbsp;<li class="next"><a href="http://qihigh.github.io/back/backyield/"> 后端交接文档</a></li>
+</ul>
+
+
+
+    </ul>
+    </div>
+    <footer>
+
+        <p class="text-muted credit">&copy; . All rights reserved. </p>
+    </footer>
+ 
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/hc.js"></script>
+</body>
+
+</html>
+

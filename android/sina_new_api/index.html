@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>adb识别新的usb连接</title>
+  <title>sina新接口问题</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="generator" content="Hugo 0.14" />
@@ -33,13 +33,13 @@
           <ul class="nav navbar-nav">
 					
 					
-					<li><a href="http://qihigh.github.ioback/">3.后台 </a></li>
-					
 					<li><a href="http://qihigh.github.ioabout">4.关于 </a></li>
 					
 					<li><a href="http://qihigh.github.io">1.所有 </a></li>
 					
 					<li><a href="http://qihigh.github.ioandroid/">2.安卓 </a></li>
+					
+					<li><a href="http://qihigh.github.ioback/">3.后台 </a></li>
 					
           </ul>
         </div>
@@ -79,23 +79,59 @@
 
 
   <div id="article">
-   <div class="article-title">adb识别新的usb连接</div>
-   <p class="meta"><small>&nbsp;<i class="fa fa-calendar-o"></i> 2015-10-26</small></p> <hr/>
+   <div class="article-title">sina新接口问题</div>
+   <p class="meta"><small>&nbsp;<i class="fa fa-calendar-o"></i> 2015-11-05</small></p> <hr/>
    <div class="post">
-     <ul>
-<li>当有一个新的Android设备想要连接电脑时，如果识别不了，则需要主动将该设备的设备码id添加到abd_usb.ini的配置文件中。接下来介绍的是如何查找新设备的设备码。
-<pre>
-//mac下对应的命令
-system_profiler SPUSBDataType &gt; ~/usb.txt  </pre>
-打开文件usb.txt，在最后的<code>USB Hi-Speed Bus: -&gt; Hub -&gt; Android</code>可以找到这个Android的条目，其中的<code>Vendor ID: 0x2a70</code>就是对应的id，追加到<code>echo 0x2a70 &gt;&gt; ~/.android/adb_usb.ini</code>中即可。</li>
+     
+
+<h3 id="有问题的接口:39b0bd26443eb9e506e3b7b5698b2b2b">有问题的接口</h3>
+
+<ol>
+<li>2/statuses/timeline_batch.json  没找到，我们在频道页需要使用，抓指定用户的微博timeline</li>
+<li>2/statuses/show_batch.json      没找到，我们在热门微博和热门话题里需要使用</li>
+<li>上传图片需要调整上传机制</li>
+<li>调整私信附件上传机制</li>
+<li>私信无法发送</li>
+<li>陌生人私信接口不一样，走的IM长连接</li>
+<li>2/friendships/friends/in_common.json   共同关注接口，没找到</li>
+<li>2/friendships/friends/bilateral.json   相互关注接口，没找到</li>
+<li>赞接口改为set_like, cancel_like, 参数未知</li>
+<li>无法更改用户头像</li>
+<li>2/account/profile/basic_update.json 无法更新用户信息</li>
+<li>2/place/pois/search.json接口不存在了，用2/place/nearby/pois，参数加q，传入keyword即可</li>
+</ol>
+
+<h3 id="处理中的接口:39b0bd26443eb9e506e3b7b5698b2b2b">处理中的接口</h3>
+
+<ul>
+<li><input type="checkbox" checked="checked" disabled="true"> SearchApi </input></li>
+<li><input type="checkbox" checked="checked" disabled="true"> UserApi </input></li>
+<li><input type="checkbox" checked="checked" disabled="true"> MyAccountApi </input></li>
+<li><input type="checkbox" checked="checked" disabled="true"> SuggestingApi  </input></li>
+
+<li><p><input type="checkbox" checked="checked" disabled="true"> BatchTimeLineApi  </input></p>
+
+<blockquote>
+<p>这里暂时使用的Gsid+srouceAppkey方式代替accessToken。</p>
+</blockquote></li>
+
+<li><p><input type="checkbox" checked="checked" disabled="true"> CommentApi </input></p></li>
+
+<li><p><input type="checkbox" disabled="false"> 发布评论、转发、微博 </input></p>
+
+<blockquote>
+<p>特殊的，上传图片接口，发送多图的接口不对，暂时用gsid方式代替accessToken</p>
+</blockquote></li>
+
+<li><p>waiting</p></li>
 </ul>
 
    </div>
  </div>
 
  <ul class="pager">
-      &nbsp;<li class="previous"><a href="http://qihigh.github.io/back/dns_bind/"> DNS域名绑定</a></li>
-      &nbsp;<li class="next"><a href="http://qihigh.github.io/back/blog_generate/"> blog生成命令相关</a></li>
+     
+      &nbsp;<li class="next"><a href="http://qihigh.github.io/back/gohttpserver/"> gohttp搭建文件传输</a></li>
 </ul>
 
 

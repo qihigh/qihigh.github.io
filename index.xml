@@ -1,13 +1,560 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>QiHuan</title>
+    <title>齐欢的博客</title>
     <link>http://qihigh.github.io/</link>
-    <description>Recent content on QiHuan</description>
+    <description>Recent content on 齐欢的博客</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Mon, 26 Oct 2015 15:40:55 +0800</lastBuildDate>
+    <language>zh_CN</language>
+    <lastBuildDate>Thu, 05 Nov 2015 11:35:34 +0800</lastBuildDate>
     <atom:link href="http://qihigh.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>sina新接口问题</title>
+      <link>http://qihigh.github.io/android/sina_new_api/</link>
+      <pubDate>Thu, 05 Nov 2015 11:35:34 +0800</pubDate>
+      
+      <guid>http://qihigh.github.io/android/sina_new_api/</guid>
+      <description>
+
+&lt;h3 id=&#34;有问题的接口:39b0bd26443eb9e506e3b7b5698b2b2b&#34;&gt;有问题的接口&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;2/statuses/timeline_batch.json  没找到，我们在频道页需要使用，抓指定用户的微博timeline&lt;/li&gt;
+&lt;li&gt;2/statuses/show_batch.json      没找到，我们在热门微博和热门话题里需要使用&lt;/li&gt;
+&lt;li&gt;上传图片需要调整上传机制&lt;/li&gt;
+&lt;li&gt;调整私信附件上传机制&lt;/li&gt;
+&lt;li&gt;私信无法发送&lt;/li&gt;
+&lt;li&gt;陌生人私信接口不一样，走的IM长连接&lt;/li&gt;
+&lt;li&gt;2/friendships/friends/in_common.json   共同关注接口，没找到&lt;/li&gt;
+&lt;li&gt;2/friendships/friends/bilateral.json   相互关注接口，没找到&lt;/li&gt;
+&lt;li&gt;赞接口改为set_like, cancel_like, 参数未知&lt;/li&gt;
+&lt;li&gt;无法更改用户头像&lt;/li&gt;
+&lt;li&gt;2/account/profile/basic_update.json 无法更新用户信息&lt;/li&gt;
+&lt;li&gt;2/place/pois/search.json接口不存在了，用2/place/nearby/pois，参数加q，传入keyword即可&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;处理中的接口:39b0bd26443eb9e506e3b7b5698b2b2b&#34;&gt;处理中的接口&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; checked=&#34;checked&#34; disabled=&#34;true&#34;&gt; SearchApi &lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; checked=&#34;checked&#34; disabled=&#34;true&#34;&gt; UserApi &lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; checked=&#34;checked&#34; disabled=&#34;true&#34;&gt; MyAccountApi &lt;/input&gt;&lt;/li&gt;
+&lt;li&gt;&lt;input type=&#34;checkbox&#34; checked=&#34;checked&#34; disabled=&#34;true&#34;&gt; SuggestingApi  &lt;/input&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;input type=&#34;checkbox&#34; checked=&#34;checked&#34; disabled=&#34;true&#34;&gt; BatchTimeLineApi  &lt;/input&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;这里暂时使用的Gsid+srouceAppkey方式代替accessToken。&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;input type=&#34;checkbox&#34; checked=&#34;checked&#34; disabled=&#34;true&#34;&gt; CommentApi &lt;/input&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;input type=&#34;checkbox&#34; disabled=&#34;false&#34;&gt; 发布评论、转发、微博 &lt;/input&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;特殊的，上传图片接口，发送多图的接口不对，暂时用gsid方式代替accessToken&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;waiting&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>gohttp搭建文件传输</title>
+      <link>http://qihigh.github.io/back/gohttpserver/</link>
+      <pubDate>Mon, 02 Nov 2015 18:02:03 +0800</pubDate>
+      
+      <guid>http://qihigh.github.io/back/gohttpserver/</guid>
+      <description>
+
+&lt;h3 id=&#34;搭建原因:1796173be1a42fe5f5a2b59aa2abedbc&#34;&gt;搭建原因&lt;/h3&gt;
+
+&lt;p&gt;在服务器端用gohttp搭建快捷上传下载的服务，可以简化本地和服务器端传输文件过程中的复杂度。&lt;/p&gt;
+
+&lt;p&gt;搭建文件服务之前，本地和服务器端文件传输都是通过ssh方式的scp进行拷贝，仅能通过命令行进行上传下载，颇为不方便。&lt;/p&gt;
+
+&lt;p&gt;所以我一直在找一种可以方便的在服务器端和客户端进行文件传输的简便方式，最好是有界面的，毕竟这类操作图形界面会大大简便于命令行界面。&lt;/p&gt;
+
+&lt;p&gt;曾经考虑过使用ftp服务器，但是这个搭建的时候出现了一些问题，而且ftp权限控制繁琐，搭建出来也并没有想象中的好使，下载问题解决了，上传问题仍然由于权限问题悬而未决。&lt;/p&gt;
+
+&lt;p&gt;曾经想自己写一个服务器端的简单服务，用于通过http服务来做一个文件列表服务，就像php自带的文件列表一样，同时还要包含上传的功能，但最终由于时间问题还是尚未开始的状态。&lt;/p&gt;
+
+&lt;p&gt;今天有幸遇到一个开发者，他在github上开源了一个这样的服务 &lt;a href=&#34;https://github.com/codeskyblue/gohttp&#34;&gt;gohttp&lt;/a&gt; ,并且比我想象的功能还要多，更关键的是他使用的go语言开发，最终的输出文件就一个可执行性文件，不需要复杂的服务器环境，简直是我等懒人福音。&lt;/p&gt;
+
+&lt;p&gt;本地试了试，界面漂亮，执行起来也方便，于是准备直接用起来。&lt;/p&gt;
+
+&lt;p&gt;接下来就介绍一下我搭建这个服务的流程。&lt;/p&gt;
+
+&lt;h3 id=&#34;搭建过程:1796173be1a42fe5f5a2b59aa2abedbc&#34;&gt;搭建过程&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;首先是登陆到服务器端&lt;/p&gt;
+
+&lt;p&gt;服务器是linux，所以去下载一个linux端的可执行文件。
+&lt;code&gt;
+wget http://dn-gobuild5.qbox.me/gorelease/codeskyblue/gohttp/master/linux-amd64/gohttp.zip 
+unzip gohttp.zip 
+&lt;/code&gt;
+得到文件 &lt;code&gt;gohttp&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;尝试运行&lt;/p&gt;
+
+&lt;p&gt;执行命令 &lt;code&gt;gohttp --port 8000 --root .&lt;/code&gt; , 可以看到服务可以运行起来。
+如果想校验的话，可以再开一个终端，请求一下这个服务 &lt;code&gt;wget 127.0.0.1:8000&lt;/code&gt; , 看看是否正确输出了文件。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使外网能够访问。&lt;/p&gt;
+
+&lt;p&gt;一般的，直接将其本地ip更新为外网ip即可。但是这里用的是云服务器，云服务器一般只对外开放几个特定的端口，这里就需要一些特殊处理，一般的使用nginx来监听80端口，并分析域名并指向对应的服务。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用nginx代理请求&lt;/p&gt;
+
+&lt;p&gt;编辑nginx配置文件
+&lt;pre&gt;
+client_max_body_size 20m; // 配置能上传的最大文件大小
+server {
+        listen 80;
+        server_name  files.weico.com;//指定访问的域名
+        location / {
+                proxy_pass &lt;a href=&#34;http://127.0.0.1:8000&#34;&gt;http://127.0.0.1:8000&lt;/a&gt;;
+                proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+        }
+}
+&lt;/pre&gt;
+校验一下nginx的配置文件是否正确 &lt;code&gt;nginx -t&lt;/code&gt;,
+校验ok之后，应用配置文件 &lt;code&gt;nginx -s reload&lt;/code&gt;。
+此时通过 &lt;code&gt;files.weico.com&lt;/code&gt; 即可进行访问。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;最终搭建的结果
+&lt;img src=&#34;http://qihigh.github.io/images/QQ20151102-2.png&#34; alt=&#34;结果1&#34; /&gt;
+
+&lt;img src=&#34;http://qihigh.github.io/images/QQ20151102-3.png&#34; alt=&#34;结果2&#34; /&gt;
+&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>阿里云后台尝试</title>
+      <link>http://qihigh.github.io/back/aliyun/</link>
+      <pubDate>Thu, 29 Oct 2015 16:36:17 +0800</pubDate>
+      
+      <guid>http://qihigh.github.io/back/aliyun/</guid>
+      <description>
+
+&lt;p&gt;今天尝试了一下阿里云，为了后期服务迁移到阿里云做准备。
+需要做的事情:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. 创建一个服务器
+2. 设置ssh登陆
+3. 运行一个基本的服务
+4. 安装nginx，mysql，redis
+5. 运行一个python的程序
+6. 运行一个go的程序
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;好了接下来介绍一下尝试的过程。&lt;/p&gt;
+
+&lt;h3 id=&#34;申请账号:dbfe7d96810df03758892b85f573ce8c&#34;&gt;申请账号&lt;/h3&gt;
+
+&lt;p&gt;这里使用的是 773731391@qq.com 的邮箱，登陆之后需要绑定支付宝进行实名认证。&lt;/p&gt;
+
+&lt;p&gt;认证完成之后，有15天得试用期，然后选择建立云服务器。&lt;/p&gt;
+
+&lt;h3 id=&#34;选择服务器:dbfe7d96810df03758892b85f573ce8c&#34;&gt;选择服务器&lt;/h3&gt;
+
+&lt;p&gt;这里服务器有两种，一种是云引擎ACE，大致和SAE、BAE差不多，主要是面向的博客用户，他提供的是各种服务，用户不会直面服务器的复杂配置，这里当然不适合我。还有一种是云服务器ECS，这种是直接分配一个服务器给用户，可以选择系统，进行软件的安装和配置，这种自由度较高，当然费用也比较高，用起来和自己的服务器似的，这里选择这种服务器。&lt;/p&gt;
+
+&lt;p&gt;新建一个服务器，操作系统选择Ubuntu14 64G，其他都选择默认的，内存1G，硬盘20G。完成之后，在云服务器列表中就可以看到新建的服务器了。&lt;/p&gt;
+
+&lt;h3 id=&#34;云服务web管理:dbfe7d96810df03758892b85f573ce8c&#34;&gt;云服务web管理&lt;/h3&gt;
+
+&lt;p&gt;web管理端提供了服务器的简单管理功能。&lt;/p&gt;
+
+&lt;p&gt;现在在实例列表中可以看到有一个实例，实例ID是随机生成的，IP地址有一个内网Ip和外网Ip，还有服务器的运行状态，在更多中，可以看到连接管理终端，这里是在浏览器端建立一个长连接，连接到服务器的console控制台，第一次连接需要设置一个密码（这个密码并不是服务器端的密码）。&lt;/p&gt;
+
+&lt;p&gt;服务器的关闭和重启也是在web管理端完成的。&lt;/p&gt;
+
+&lt;p&gt;在管理中，更新服务器端的密码，初始密码肯定是要换的。然后就可以通过ssh的方式登录到远程服务器。&lt;/p&gt;
+
+&lt;h3 id=&#34;登陆到服务器:dbfe7d96810df03758892b85f573ce8c&#34;&gt;登陆到服务器&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;ssh root@112.126.74.74&lt;/code&gt; (这里是服务器的外网IP) 输入密码，即可完成登陆。&lt;/p&gt;
+
+&lt;p&gt;这里由于ssh登陆还需要密码，固第一步先将自己本机的sshkey添加到服务器上.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd ~
+mkdir .ssh
+cd .ssh
+echo &amp;quot;我的sshkey&amp;quot; &amp;gt;&amp;gt; authorized_keys
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后断开连接，重新使用ssh登陆，发现不再提示输入密码。完成ssh登陆的设置。&lt;/p&gt;
+
+&lt;h3 id=&#34;安装amh服务:dbfe7d96810df03758892b85f573ce8c&#34;&gt;安装AMH服务&lt;/h3&gt;
+
+&lt;p&gt;接下来安装一个AMH的php服务，这里集成了很多东西:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;服务器的管理&lt;/li&gt;
+&lt;li&gt;mysql、php、ftp、nginx的安装和默认配置&lt;/li&gt;
+&lt;li&gt;mysql的管理界面（类似php）&lt;/li&gt;
+&lt;li&gt;方便的建站功能。&lt;/li&gt;
+&lt;li&gt;其他功能详细参见  (网站)[&lt;a href=&#34;http://bbs.aliyun.com/read/143639.html?spm=5176.bbsr253866.0.0.Ppby9K&#34;&gt;http://bbs.aliyun.com/read/143639.html?spm=5176.bbsr253866.0.0.Ppby9K&lt;/a&gt;]&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;安装的过程就是下载一个脚本，然后执行&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;wget http://amh.sh/file/AMH/4.2/amh.sh &amp;amp;&amp;amp; chmod 775 amh.sh &amp;amp;&amp;amp; ./amh.sh 2&amp;gt;&amp;amp;1 | tee amh.log&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;安装过程中会提示输入系统密码和mysql数据库的密码。&lt;/p&gt;
+
+&lt;h4 id=&#34;安装过程中遇到问题-php安装失败:dbfe7d96810df03758892b85f573ce8c&#34;&gt;安装过程中遇到问题，php安装失败。&lt;/h4&gt;
+
+&lt;p&gt;提示的异常信息&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;tar -xf ams-1.5.0107-02.tar.gz ing...
+[OK] ams-1.5.0107-02 install completed.
+Sorry, Failed to install AMH
+Please contact us: http://amh.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但实际上这里并没有提供出有用的信息，将日志向上查看，发现是php的安装失败导致的失败。&lt;/p&gt;
+
+&lt;p&gt;主要就是php依赖的一个库没有正常安装上（这个废了好大力气才确认这个库）。首先找到AMH安装过程中软件包得下载地址和解压地址。AMH安装过程中会建立一个用户，文件会放在这个用户下，安装完成之后这个用户和文件都会被删掉。这个账户下找到各个软件的安装目录，主要是php的安装目录。重新执行一遍php的安装过程&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;./configure 。。。此处省略n多配置
+make 
+make install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;执行的过程中发现异常信息，
+&lt;code&gt;Compile fails &amp;quot;configure: error: Please reinstall the iconv library&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;也就是说 &lt;code&gt;/usr/local/libiconv&lt;/code&gt; 这个库安装失败了，导致的php安装失败。之后在php目录的上一级目录，也就是AMH的安装包目录下发现有这个库，于是重新安装一下这个库。&lt;/p&gt;
+
+&lt;p&gt;安装的过程中曝出了具体的错误信息，google了一下，网上说是源码有问题，（源码找不到了，这里就不贴了暂时）遂去修改源码并重新编译安装，完成。之后重新运行AMH的安装脚本（AMH的安装脚本中包含了php的编译和安装，就不需要自己手工去编译安装了）&lt;/p&gt;
+
+&lt;p&gt;之后AMH顺利安装完成。访问 &lt;code&gt;112.126.74.74:8888&lt;/code&gt; 打开AMH的登录页面。&lt;/p&gt;
+
+&lt;h3 id=&#34;登录后台-查看各个服务:dbfe7d96810df03758892b85f573ce8c&#34;&gt;登录后台，查看各个服务&lt;/h3&gt;
+
+&lt;p&gt;nginx -t 发现服务正常运行着。
+mysql -uroot -p 然后输入密码，正常登录。
+通过AMH管理页面，可以清楚的看到当前服务器的CPU使用状态等等信息。&lt;/p&gt;
+
+&lt;p&gt;通过AMH建立一个站点&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;添加一个虚拟主机 （也就是一个php服务站）&lt;/li&gt;
+&lt;li&gt;添加FTP，FTP的根目录指向刚刚新建的虚拟主机根目录。&lt;/li&gt;
+&lt;li&gt;通过快速建库新建一个mysql数据库&lt;/li&gt;
+&lt;li&gt;模块扩展中有一个AMFTP，激活这个模块，就可以通过web端进行FTP文件上传和下载了，非常方便（再也不用scp进行文件拷贝了，省事很多）&lt;/li&gt;
+&lt;li&gt;进入服务器，看到刚刚的站点就在 /home/wwwroot/ 下，上传的文件也在对应的web目录下。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;数据库的管理:dbfe7d96810df03758892b85f573ce8c&#34;&gt;数据库的管理&lt;/h3&gt;
+
+&lt;p&gt;非图形界面，自然就是mysql命令行了。&lt;/p&gt;
+
+&lt;p&gt;数据库的管理部分，使用AMH提供的足够用了，使用上和phpmyadmin很像。当然也可以自己换成phpmyadmin。&lt;/p&gt;
+
+&lt;p&gt;如果想通过本机的客户端管理数据库也是可以的,这里使用的是 &lt;code&gt;Navicat for MySql&lt;/code&gt;。由于mysql默认是不支持远程连接，只支持本地连接（最好不要开放外网连接），这里通过ssh的方式进行连接。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;新建一个连接，打开ssh选项卡，选中 &lt;code&gt;Use SSH tunnel&lt;/code&gt;,输入IP和密码（如果是ssh证书方式，可以指向整数文件）&lt;/li&gt;
+&lt;li&gt;回到General中，ip填写 &lt;code&gt;127.0.0.1&lt;/code&gt; ，输入用户名和密码，点击 &lt;code&gt;Test Connection&lt;/code&gt; 校验是否连接成功.&lt;/li&gt;
+&lt;li&gt;点击OK，完成连接&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;通过AMH快速建表的时候，实际上是可以指定该数据库是否支持外网的，在允许链接来源地址中填写&lt;code&gt;%&lt;/code&gt;，这样的话通过本地客户端可以直接连到数据库（用这里添加的用户名和密码，不是数据库本身的），不需要ssh登陆，不过连过去之后也只能看到这一个表。&lt;/p&gt;
+
+&lt;h3 id=&#34;安装redis:dbfe7d96810df03758892b85f573ce8c&#34;&gt;安装redis&lt;/h3&gt;
+
+&lt;p&gt;安装redis非常简单，直接去官网下载最新的tar包即可.redis官网地址：&lt;a href=&#34;http://www.redis.io/&#34;&gt;http://www.redis.io/&lt;/a&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code&gt; $ wget http://download.redis.io/releases/redis-3.0.5.tar.gz
+ $ tar xzf redis-3.0.5.tar.gz
+ $ cd redis-3.0.5
+ $ make
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;编译完成之后，redis-server生成在src目录下。将目录下得 redis-server ,redis-cli,redis-benchmark, ../redis.conf 移到 &lt;code&gt;/usr/local/redis&lt;/code&gt; 下&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;将目录 &lt;code&gt;/usr/local/redis&lt;/code&gt; 添加到环境变量中，echo &amp;ldquo;export PATH=$PATH:\&amp;ldquo;/usr/local/redis\&amp;ldquo;&amp;rdquo; &amp;gt;&amp;gt; .bash_profile ,并使其生效。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;启动redis-server &lt;code&gt;nohup redis-server redis.conf &amp;amp;&lt;/code&gt; ,然后通过 redis-cli 进行测试服务是否正常启动&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;安装python相关模块:dbfe7d96810df03758892b85f573ce8c&#34;&gt;安装python相关模块&lt;/h3&gt;
+
+&lt;p&gt;安装的时候，需要两个python的工具，pip和virtualenv，通过apt-get 进行安装即可。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;virtualenv virtual
+cd virtual
+./bin/pip install futures
+./bin/pip install tornado
+./bin/pip install oursql
+./bin/pip install DBUtils
+./bin/pip install nose
+./bin/pip install apscheduler
+./bin/pip install BeautifulSoup
+./bin/pip install qiniu==6.1.9
+./bin/pip install PIL
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;安装python的oursql模块时-遇到问题:dbfe7d96810df03758892b85f573ce8c&#34;&gt;安装python的oursql模块时，遇到问题：&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;报错信息: &lt;code&gt;tornado/speedups.c:2:20: fatal error: Python.h: No such file or directory
+#include &amp;lt;Python.h&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;指python的开发版本是需要的 apt-get install python-dev&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;运行&lt;code&gt;sudo pip install oursql&lt;/code&gt;,再次报错: &lt;code&gt;oursqlx/compat.h:13:19: fatal error: mysql.h: No such file or directory
+#include &amp;quot;mysql.h&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;指oursql编译的时候，依赖的本地so文件不存在，需要进行安装：
+&lt;code&gt;sudo apt-get install libmysqlcppconn-dev&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sudo apt-get install libmysqlclient-dev&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;再次执行&lt;code&gt;sudo pip install oursql&lt;/code&gt; ,打出一些警告信息，安装成功。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>本地图片加载方案(强化picasso)</title>
+      <link>http://qihigh.github.io/android/myLocalImageLoader/</link>
+      <pubDate>Tue, 27 Oct 2015 18:01:38 +0800</pubDate>
+      
+      <guid>http://qihigh.github.io/android/myLocalImageLoader/</guid>
+      <description>&lt;p&gt;由于最新的picasso加载本地图片时，如果图片是相机直接拍摄的，一般尺寸会非常大，picasso处理不了这样的大图。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Glide应该可以处理,没有尝试.&lt;/li&gt;
+&lt;li&gt;Ion应该是可以的.&lt;/li&gt;
+&lt;li&gt;Facebook 的 Fresco 是可以的.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这里不想因为这个问题就换掉整个picasso，然后就打算自己写一个。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.squareup.picasso;
+
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.support.v4.util.LruCache;
+import android.text.TextUtils;
+import android.widget.ImageView;
+
+import com.eico.weico.WApplication;
+import com.eico.weico.utility.BitmapUtil;
+
+import java.util.concurrent.ExecutorService;
+
+/**
+ * Created by qihuan on 15/10/27.
+ */
+public class MyLoadFileLoader {
+    private static MyLoadFileLoader instance;
+    //线程池
+    private final ExecutorService threadPool;
+    //内存缓存
+    private final LruCache&amp;lt;String, Bitmap&amp;gt; cache;
+
+    static {
+        instance = new MyLoadFileLoader();
+    }
+
+
+    private MyLoadFileLoader() {
+        threadPool = WApplication.cThreadPool;
+        cache = new LruCache(50);
+    }
+
+    public static MyLoadFileLoader getInstance() {
+        return instance;
+    }
+
+    /**
+     * 触发加载
+     * 1. 缓存中有，直接从缓存中获取
+     * 2. 缓存中没有，读取图片，并采用ThumbUtil进行方图裁切。
+     *
+     * @param aPath     本地图片路径
+     * @param aSize     最终显示的大小（仅支持方图）
+     * @param aResId    placeholder
+     * @param imageView 目标imageView
+     */
+    public void load(final String aPath, final int aSize, int aResId, final ImageView imageView) {
+        if (TextUtils.isEmpty(aPath)) {
+            //失败默认使用resId
+            if (aResId &amp;gt; 0) {
+                imageView.setImageResource(aResId);
+            }
+            return;
+        }
+        //防止图片串位
+        imageView.setTag(aPath);
+        //缓存处理
+        Bitmap cachedBitmap = cache.get(aPath);
+        if (null != cachedBitmap) {
+            imageView.setImageBitmap(cachedBitmap);
+            return;
+        }
+
+        //placeholder
+        if (aResId &amp;gt; 0) {
+            imageView.setImageResource(aResId);
+        }
+
+        final Bitmap[] bitmaps = new Bitmap[1];
+
+        //回归UI线程处理
+        final Handler handler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (aPath.equals(imageView.getTag()) &amp;amp;&amp;amp; null != bitmaps[0]) {
+                    imageView.setImageBitmap(bitmaps[0]);
+                }
+                return false;
+            }
+        });
+
+        //本地读取裁切任务，添加到线程池
+        threadPool.submit(new Runnable() {
+            @Override
+            public void run() {
+                Bitmap source = BitmapUtil.decodeBitmap(aPath, 200);
+                Bitmap temp = ThumbnailUtils.extractThumbnail(source, aSize, aSize);
+                if (null != temp &amp;amp;&amp;amp; temp.getWidth() &amp;gt; 0) {
+                    //图片添加到缓存，通知UI线程更新
+                    bitmaps[0] = temp;
+                    handler.sendEmptyMessage(0);
+                    cache.put(aPath, temp);
+                }
+            }
+        });
+
+    }
+
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>picasso滑动暂停加载</title>
+      <link>http://qihigh.github.io/android/picasso/</link>
+      <pubDate>Tue, 27 Oct 2015 11:20:35 +0800</pubDate>
+      
+      <guid>http://qihigh.github.io/android/picasso/</guid>
+      <description>&lt;p&gt;需要在滑动的listView中进行监听，这里有两个listener，一个是针对listView的，一个是针对RecyclerView的&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.squareup.picasso;
+
+import android.content.Context;
+import android.widget.AbsListView;
+
+public class SampleScrollListener implements AbsListView.OnScrollListener {
+    private final Context context;
+    private static final Object scrollTag = new Object(); // this can be static or not, depending what u want to achieve
+
+    public SampleScrollListener(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        final Picasso picasso = Picasso.with(context);
+        if (scrollState == SCROLL_STATE_IDLE || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
+            picasso.resumeTag(scrollTag);
+        } else {
+            picasso.pauseTag(scrollTag);
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                         int totalItemCount) {
+        // Do nothing.
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;package com.ewintory.udacity.popularmovies.utils;
+
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+
+
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
+
+
+/**
+ * Simple {@link RecyclerView.OnScrollListener} implementation which
+ * pauses/resumes Picasso&#39;s tagged requests
+ *
+ * @author Emin Yahyayev
+ * @see {@link RequestCreator#tag(Object)}
+ */
+public final class PicassoScrollListener extends RecyclerView.OnScrollListener {
+
+
+    private static final int DEFAULT_SENSITIVITY = 120;
+
+
+    private Picasso mPicasso;
+    private int mPauseSensitivity; // scroll sensitivity
+    private Object mTag;
+
+
+    public PicassoScrollListener(Context context, Object tag) {
+        this(Picasso.with(context), tag, DEFAULT_SENSITIVITY);
+    }
+
+
+    public PicassoScrollListener(Picasso picasso, Object tag) {
+        this(picasso, tag, DEFAULT_SENSITIVITY);
+    }
+
+
+    public PicassoScrollListener(Context context, Object tag, int pauseSensitivity) {
+        this(Picasso.with(context), tag, pauseSensitivity);
+    }
+
+
+    public PicassoScrollListener(Picasso picasso, Object tag, int pauseSensitivity) {
+        mPicasso = picasso;
+        mPauseSensitivity = pauseSensitivity;
+        mTag = tag;
+    }
+
+
+    @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        if (Math.abs(dy) &amp;gt; mPauseSensitivity)
+            mPicasso.pauseTag(mTag);
+        else
+            mPicasso.resumeTag(mTag);
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>后端交接文档</title>
@@ -71,6 +618,9 @@ http://weicodev.wicp.net:8080/bugzilla/
 dev@weico.com
 1123581321
 
+10. 七牛云存储 / ucloud
+    dev@weico.com
+    密码 weico2014++
 
 
 联系方式：
@@ -303,6 +853,12 @@ system_profiler SPUSBDataType &amp;gt; ~/usb.txt  &lt;/pre&gt;
 &lt;p&gt;实时更新方式（当进行修改之后，后台会发通知给浏览器，浏览器自动更新，不需要手动刷新）
 &lt;code&gt;hugo server --theme=herring-cove --buildDrafts --watch&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;h3 id=&#34;阿里云服务器:53ce08bd8daefb24173b0a5b1246e436&#34;&gt;阿里云服务器&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;网页控制台登陆密码 qihuan
+服务器端密码 2wsx3EDC
+&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     
@@ -697,16 +1253,6 @@ public static void statusBar(Window window) {
       
       <guid>http://qihigh.github.io/android/start/</guid>
       <description>&lt;p&gt;android相关&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>关于</title>
-      <link>http://qihigh.github.io/about/</link>
-      <pubDate>Mon, 26 Oct 2015 15:11:13 +0800</pubDate>
-      
-      <guid>http://qihigh.github.io/about/</guid>
-      <description>&lt;p&gt;自我介绍&lt;/p&gt;
 </description>
     </item>
     
