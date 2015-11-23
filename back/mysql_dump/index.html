@@ -55,13 +55,13 @@
           <li class="sidebar-brand"><a href="http://qihigh.github.io//"><h1 class="brand">齐欢的博客</h1></a><h3></h3></li>
           <hr />
 					
-						<li><a href="http://qihigh.github.io/back/">3.后台 </a></li>
-					
-						<li><a href="http://qihigh.github.io/about/">4.关于 </a></li>
-					
 						<li><a href="http://qihigh.github.io/">1.所有 </a></li>
 					
 						<li><a href="http://qihigh.github.io/android/">2.安卓 </a></li>
+					
+						<li><a href="http://qihigh.github.io/back/">3.后台 </a></li>
+					
+						<li><a href="http://qihigh.github.io/about/">4.关于 </a></li>
 					
           <hr />
           <div id="social-wrapper">
@@ -106,6 +106,20 @@
 <li><p>导出数据库為dbname某张表(test)结构及表數據（不加-d）</p>
 
 <p><code>mysqldump -uroot -pdbpasswd dbname test&gt;db.sql;</code></p></li>
+
+<li><p>数据库备份跨服务器beifen.</p>
+
+<p>mysqldump -h 192.168.100.57  -P 3306 -u my58 -p test &gt; tset.sql</p></li>
+
+<li><p>change mysql root password</p>
+
+<ul>
+<li>need to stop mysqld</li>
+<li>start mysql by mysql_safe with params :
+mysqld_safe &ndash;skip-grant-tables&amp;</li>
+<li>type : mysql -u root , and password will not be asked</li>
+<li>change the root password</li>
+</ul></li>
 </ol>
 
 <h4 id="其他数据库相关:21b917757f8ba675c9e9b05b2ed32895">其他数据库相关</h4>

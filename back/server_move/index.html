@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>服务器迁移遇到的问题</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.14" />
+  <link href="" rel="alternate" type="application/rss+xml" title="齐欢的博客" />
+  <link href="http://qihigh.github.io//css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://qihigh.github.io//css/hc.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  
+    
+    </head>
+    <body>
+<div class="nav-toggle"><i class="fa fa-bars fa-2x"></i> Herring Cove </div>
+      <div id = "wrapper">
+
+
+<div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="http://qihigh.github.io//"><p class="navbar-brand">齐欢的博客</p></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+					
+					
+					<li><a href="http://qihigh.github.io/">1.所有 </a></li>
+					
+					<li><a href="http://qihigh.github.io/android/">2.安卓 </a></li>
+					
+					<li><a href="http://qihigh.github.io/back/">3.后台 </a></li>
+					
+					<li><a href="http://qihigh.github.io/about/">4.关于 </a></li>
+					
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+       
+       <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+					<img src="https://avatars0.githubusercontent.com/u/1587551?v=3&amp;s=460" />
+          <li class="sidebar-brand"><a href="http://qihigh.github.io//"><h1 class="brand">齐欢的博客</h1></a><h3></h3></li>
+          <hr />
+					
+						<li><a href="http://qihigh.github.io/">1.所有 </a></li>
+					
+						<li><a href="http://qihigh.github.io/android/">2.安卓 </a></li>
+					
+						<li><a href="http://qihigh.github.io/back/">3.后台 </a></li>
+					
+						<li><a href="http://qihigh.github.io/about/">4.关于 </a></li>
+					
+          <hr />
+          <div id="social-wrapper">
+           
+           
+           
+           
+         </div>
+       </ul>
+     </div>
+
+
+
+     <div class="container">
+
+
+  <div id="article">
+   <div class="article-title">服务器迁移遇到的问题</div>
+   <p class="meta"><small>&nbsp;<i class="fa fa-calendar-o"></i> 2015-11-11</small></p> <hr/>
+   <div class="post">
+     
+
+<p>在处理服务器迁移的过程中，遇到了很多问题，这里进行一下记录。</p>
+
+<h3 id="添加ssh免登陆:7c29444d458a4f774a8370445c67ef45">添加ssh免登陆</h3>
+
+<pre><code>ssh免登陆主要是在用户目录 .ssh/authorized_keys 下添加用户本地的 id_rsa.pub 。需要注意的是，ssh 对权限有很严格的要求， authorized_keys 的文件权限不能太高也不能太低，否则都会导致ssh无法登陆的问题。
+``` chmod 600 authorized_keys  ``` 这个是最合适的权限
+</code></pre>
+
+<h3 id="添加新用户-并带有用户的个人目录:7c29444d458a4f774a8370445c67ef45">添加新用户，并带有用户的个人目录</h3>
+
+<pre><code>首先添加一个用户组:
+# groupadd deployer
+
+# 添加一个用户weico，并带有个人目录
+useradd weico -d /home/weico -g deployer
+</code></pre>
+
+<h3 id="一个进行linux安全初始化的脚本:7c29444d458a4f774a8370445c67ef45">一个进行linux安全初始化的脚本</h3>
+
+<p><a href="/files/linux_init.sh">linux init</a></p>
+
+<blockquote>
+<p>其中
+  <pre>
+    # chattr /etc/passwd /etc/shadow
+    chattr +i /etc/passwd
+    chattr +i /etc/shadow
+    chattr +i /etc/group
+    chattr +i /etc/gshadow
+  </pre>
+  是将账户、密码相关文件进行特殊处理，不让随意更改.</p>
+</blockquote>
+
+<h3 id="单文件jumper处理:7c29444d458a4f774a8370445c67ef45">单文件jumper处理</h3>
+
+<ol>
+<li><p>原来的处理，是或者使用nodejs写的后台，或者是python写的后台，但其实逻辑都是获取userAgent，并判断是什么平台的。这点用js完全可以做到，没必要做这么重的处理，这里将其换成了一个单独的html文件</p>
+
+<p><a href="/files/sugar_jumper.html">jumper</a></p>
+
+<blockquote>
+<p>这里并没有添加跳转url的代码，仅仅是弹一个alert</p>
+</blockquote></li>
+
+<li><p>nginx 需要修改配置为指向单独的文件，而不再是一个服务器地址</p></li>
+</ol>
+
+<p>//TODO</p>
+
+<pre><code>	try_files $uri sugar_jumper.html
+</code></pre>
+
+<h3 id="密码均采用随机生成的:7c29444d458a4f774a8370445c67ef45">密码均采用随机生成的</h3>
+
+<p>这里使用的是一个<a href="http://suijimimashengcheng.51240.com/">随机密码生成网页</a></p>
+
+<h3 id="服务器磁盘满了:7c29444d458a4f774a8370445c67ef45">服务器磁盘满了</h3>
+
+<pre><code>迁移过去之后，磁盘变小了很多，比较容易出现磁盘满了的问题，一般都是由于日志导致的，可以通过命令```du -sh /* ``` 来查看指定目录下（当前是根目录）磁盘使用情况。
+</code></pre>
+
+<h3 id="linux目录映射:7c29444d458a4f774a8370445c67ef45">linux目录映射</h3>
+
+<pre><code>ln -s destName fromPath
+</code></pre>
+
+<h3 id="pil-过期问题:7c29444d458a4f774a8370445c67ef45">PIL 过期问题</h3>
+
+<pre><code>使用 pip install PIL  --allow-unverified PIL --allow-all-external 进行PIL的安装
+</code></pre>
+
+   </div>
+ </div>
+
+ <ul class="pager">
+      &nbsp;<li class="previous"><a href="http://qihigh.github.io/back/supervisord-use/"> supervisord use</a></li>
+      &nbsp;<li class="next"><a href="http://qihigh.github.io/android/sina_new_api/"> sina新接口问题</a></li>
+</ul>
+
+
+
+    </ul>
+    </div>
+    <footer>
+
+        <p class="text-muted credit">&copy; . All rights reserved. </p>
+    </footer>
+ 
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/hc.js"></script>
+</body>
+
+</html>
+

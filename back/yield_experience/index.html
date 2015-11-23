@@ -33,13 +33,13 @@
           <ul class="nav navbar-nav">
 					
 					
-					<li><a href="http://qihigh.github.io/back/">3.后台 </a></li>
-					
-					<li><a href="http://qihigh.github.io/about/">4.关于 </a></li>
-					
 					<li><a href="http://qihigh.github.io/">1.所有 </a></li>
 					
 					<li><a href="http://qihigh.github.io/android/">2.安卓 </a></li>
+					
+					<li><a href="http://qihigh.github.io/back/">3.后台 </a></li>
+					
+					<li><a href="http://qihigh.github.io/about/">4.关于 </a></li>
 					
           </ul>
         </div>
@@ -55,13 +55,13 @@
           <li class="sidebar-brand"><a href="http://qihigh.github.io//"><h1 class="brand">齐欢的博客</h1></a><h3></h3></li>
           <hr />
 					
-						<li><a href="http://qihigh.github.io/">1.所有 </a></li>
-					
 						<li><a href="http://qihigh.github.io/android/">2.安卓 </a></li>
 					
 						<li><a href="http://qihigh.github.io/back/">3.后台 </a></li>
 					
 						<li><a href="http://qihigh.github.io/about/">4.关于 </a></li>
+					
+						<li><a href="http://qihigh.github.io/">1.所有 </a></li>
 					
           <hr />
           <div id="social-wrapper">
@@ -262,6 +262,42 @@ nohup ./weico3 &amp;
 <p><code>git remote add origin root@dev.weico.com:/home/android/WeicoTV.git</code></p>
 
 <p>重新push一下即可，这样会将本地所有的修改提交到新的服务器上。（服务器端采用复制git包或者重新初始化git包的方式，都可以将代码更新成最新的）</p></li>
+
+<li><p>创建用户 centos</p>
+
+<ul>
+<li><p>首先添加用户组</p>
+
+<p>groupadd deployer</p></li>
+
+<li><p>添加新用户</p>
+
+<p>useradd -d /home/weico -g deployer weico</p></li>
+
+<li><p>新用户设置密码</p>
+
+<p>passwd weico</p></li>
+</ul></li>
+
+<li><p>ucloud 开放的端口3389，是针对window系统的，这里可以用来测试一些服务，跳过nginx配置</p>
+
+<p>./gohttp &ndash;root . &ndash;port 3389</p></li>
+
+<li><p>查看已经被删除的句柄</p>
+
+<p>lsof | grep deleted</p></li>
+
+<li><p>nginx路径配置匹配规则</p>
+
+<p>nginx location语法
+基本语法：location [=|~|~*|^~] /uri/ { … }</p>
+
+<p>= 严格匹配。如果这个查询匹配，那么将停止搜索并立即处理此请求。
+~ 为区分大小写匹配(可用正则表达式)
+!~为区分大小写不匹配
+~* 为不区分大小写匹配(可用正则表达式)
+!~*为不区分大小写不匹配
+^~ 如果把这个前缀用于一个常规字符串,那么告诉nginx 如果路径匹配那么不测试正则表达式。</p></li>
 </ol>
 
    </div>

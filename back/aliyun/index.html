@@ -33,13 +33,13 @@
           <ul class="nav navbar-nav">
 					
 					
-					<li><a href="http://qihigh.github.io/back/">3.后台 </a></li>
-					
-					<li><a href="http://qihigh.github.io/about/">4.关于 </a></li>
-					
 					<li><a href="http://qihigh.github.io/">1.所有 </a></li>
 					
 					<li><a href="http://qihigh.github.io/android/">2.安卓 </a></li>
+					
+					<li><a href="http://qihigh.github.io/back/">3.后台 </a></li>
+					
+					<li><a href="http://qihigh.github.io/about/">4.关于 </a></li>
 					
           </ul>
         </div>
@@ -55,13 +55,13 @@
           <li class="sidebar-brand"><a href="http://qihigh.github.io//"><h1 class="brand">齐欢的博客</h1></a><h3></h3></li>
           <hr />
 					
-						<li><a href="http://qihigh.github.io/about/">4.关于 </a></li>
-					
 						<li><a href="http://qihigh.github.io/">1.所有 </a></li>
 					
 						<li><a href="http://qihigh.github.io/android/">2.安卓 </a></li>
 					
 						<li><a href="http://qihigh.github.io/back/">3.后台 </a></li>
+					
+						<li><a href="http://qihigh.github.io/about/">4.关于 </a></li>
 					
           <hr />
           <div id="social-wrapper">
@@ -268,6 +268,31 @@ cd virtual
 
 <li><p>再次执行<code>sudo pip install oursql</code> ,打出一些警告信息，安装成功。</p></li>
 </ol>
+
+<h3 id="centos-安装oursql模块时-遇到的问题解决方法:dbfe7d96810df03758892b85f573ce8c">centos 安装oursql模块时，遇到的问题解决方法</h3>
+
+<pre><code>I have Python 2.7.5, MySQL 5.6 and CentOS 7.1.1503.
+
+For me it worked with the following command:
+
+# pip install mysql-python
+Note pre-requisites here:
+
+Install Python pip:
+
+# rpm -iUvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+
+# yum -y update
+Reboot the machine (if kernel is also updated)
+
+# yum -y install python-pip
+Install Python devel packages:
+
+# yum install python-devel
+Install MySQL devel packages:
+
+# yum install mysql-devel
+</code></pre>
 
    </div>
  </div>

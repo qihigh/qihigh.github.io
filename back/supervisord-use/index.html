@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>supervisord use</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="generator" content="Hugo 0.14" />
+  <link href="" rel="alternate" type="application/rss+xml" title="齐欢的博客" />
+  <link href="http://qihigh.github.io//css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://qihigh.github.io//css/hc.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  
+    
+    </head>
+    <body>
+<div class="nav-toggle"><i class="fa fa-bars fa-2x"></i> Herring Cove </div>
+      <div id = "wrapper">
+
+
+<div class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="http://qihigh.github.io//"><p class="navbar-brand">齐欢的博客</p></a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+					
+					
+					<li><a href="http://qihigh.github.io/">1.所有 </a></li>
+					
+					<li><a href="http://qihigh.github.io/android/">2.安卓 </a></li>
+					
+					<li><a href="http://qihigh.github.io/back/">3.后台 </a></li>
+					
+					<li><a href="http://qihigh.github.io/about/">4.关于 </a></li>
+					
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+       
+       <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+					<img src="https://avatars0.githubusercontent.com/u/1587551?v=3&amp;s=460" />
+          <li class="sidebar-brand"><a href="http://qihigh.github.io//"><h1 class="brand">齐欢的博客</h1></a><h3></h3></li>
+          <hr />
+					
+						<li><a href="http://qihigh.github.io/android/">2.安卓 </a></li>
+					
+						<li><a href="http://qihigh.github.io/back/">3.后台 </a></li>
+					
+						<li><a href="http://qihigh.github.io/about/">4.关于 </a></li>
+					
+						<li><a href="http://qihigh.github.io/">1.所有 </a></li>
+					
+          <hr />
+          <div id="social-wrapper">
+           
+           
+           
+           
+         </div>
+       </ul>
+     </div>
+
+
+
+     <div class="container">
+
+
+  <div id="article">
+   <div class="article-title">supervisord use</div>
+   <p class="meta"><small>&nbsp;<i class="fa fa-calendar-o"></i> 2015-11-17</small></p> <hr/>
+   <div class="post">
+     
+
+<p>Supervisord是用Python实现的一款非常实用的进程管理工具，和nohup比较类似。
+相比较，nohup相对简单易用，但是大量维护起来比较困难。Supervisor相对功能全面，而且易于管理。</p>
+
+<h2 id="安装-pip-install-supervisor:dc4ea4aa8e8bf1a08f80c6539cb38bc4">安装 pip install supervisor</h2>
+
+<h2 id="生成配置文件:dc4ea4aa8e8bf1a08f80c6539cb38bc4">生成配置文件</h2>
+
+<h2 id="根据配置文件启动:dc4ea4aa8e8bf1a08f80c6539cb38bc4">根据配置文件启动</h2>
+
+<pre><code>supervisord -c /etc/supervisor.conf
+</code></pre>
+
+<h2 id="添加一条命令:dc4ea4aa8e8bf1a08f80c6539cb38bc4">添加一条命令</h2>
+
+<pre><code>[program:blog]
+command = hugo server --theme=herring-cove --buildDrafts=true --watch=true --source=&quot;/Users/qihuan/workspace/java/qihigh.github.hugo&quot;
+process_name = hugo-blog
+</code></pre>
+
+<p>demo:</p>
+
+<pre><code>[program:script.py] #程序的名字，在supervisor中可以用这个名字来管理该程序。
+command=/home/hadoop/script1.1.py #启动程序的命令
+autorstart=true #设置改程序是否虽supervisor的启动而启动
+directory=/home/hadoop #相当于在该目录下执行程序
+autorestart=true #程序停止之后是否需要重新将其启动
+startsecs=10 #重新启动时，等待的时间
+startretries=36 #重启程序的次数
+redirect_stderr=true #是否将程序错误信息重定向的到文件
+stdout_logfile=/home/hadoop/supervisor_log/log.txt #将程序输出重定向到该文件
+stderr_logfile=/home/hadoop/supervisor_log/err.txt #将程序错误信息重定向到该文件
+</code></pre>
+
+<h2 id="启动博客:dc4ea4aa8e8bf1a08f80c6539cb38bc4">启动博客</h2>
+
+<pre><code>每次修改主配置文件或增改子配置文件都需要执行supervisorctl update使新配置生效。或者用supervisorctl reload重新重新启动supervisor程序
+
+supervisorctl reload    
+</code></pre>
+
+<h2 id="当配置reload失败之后-可以查看日志文件-tmp-supervisord-log:dc4ea4aa8e8bf1a08f80c6539cb38bc4">当配置reload失败之后，可以查看日志文件 /tmp/supervisord.log</h2>
+
+<pre><code>reload 还可以通过指定配置文件的方式处理  supervisorctl -c ~/workspace/supervisor.conf ,进入交互界面进行reload
+</code></pre>
+
+<h2 id="ui显示:dc4ea4aa8e8bf1a08f80c6539cb38bc4">UI显示</h2>
+
+<p>修改主配置文件
+vim /etc/supervisor/supervisord.conf，添加如下内容：
+[inet_http_server]
+port = 192.168.1.60:9001 ＃IP和绑定端口
+username = admin ＃管理员名称
+password = 123456 #管理员密码
+这样，在浏览器中输入配置中写的地址和端口号，输入配置好的用户名和密码，便可以看到基于网页的控制台界面。从中，可以察看supervisor监控的&gt;信息，可以察看进程的日志等。</p>
+
+   </div>
+ </div>
+
+ <ul class="pager">
+     
+      &nbsp;<li class="next"><a href="http://qihigh.github.io/back/server_move/"> 服务器迁移遇到的问题</a></li>
+</ul>
+
+
+
+    </ul>
+    </div>
+    <footer>
+
+        <p class="text-muted credit">&copy; . All rights reserved. </p>
+    </footer>
+ 
+    <script src="/js/jquery-1.10.2.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/hc.js"></script>
+</body>
+
+</html>
+

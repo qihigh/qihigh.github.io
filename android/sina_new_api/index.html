@@ -33,13 +33,13 @@
           <ul class="nav navbar-nav">
 					
 					
-					<li><a href="http://qihigh.github.io/">1.所有 </a></li>
-					
-					<li><a href="http://qihigh.github.io/android/">2.安卓 </a></li>
-					
 					<li><a href="http://qihigh.github.io/back/">3.后台 </a></li>
 					
 					<li><a href="http://qihigh.github.io/about/">4.关于 </a></li>
+					
+					<li><a href="http://qihigh.github.io/">1.所有 </a></li>
+					
+					<li><a href="http://qihigh.github.io/android/">2.安卓 </a></li>
 					
           </ul>
         </div>
@@ -123,14 +123,67 @@
 <p>特殊的，上传图片接口，发送多图的接口不对，暂时用gsid方式代替accessToken</p>
 </blockquote></li>
 
-<li><p>waiting</p></li>
+<li><p>QueryMidAPI ok</p></li>
+
+<li><p>SearchClient ok</p></li>
+
+<li><p>SinaClient ok</p></li>
+
+<li><p>WeiboPostApi  &ndash; WeicoAsyncRunner &ndash; WeicoHttpManager</p></li>
+
+<li><p>修改密码之后，没有提示token过期</p></li>
+
+<li><p>当用户没有登陆或者刚刚登陆时，用户信息获取不到的问题，需要进行处理。（account.getSValue()）</p></li>
 </ul>
+
+<h3 id="新浪接口处理的时候-将相关的关键参数进行加密处理-采用的rsa加密-公钥秘钥分别是:39b0bd26443eb9e506e3b7b5698b2b2b">新浪接口处理的时候，将相关的关键参数进行加密处理，采用的rsa加密。公钥秘钥分别是：</h3>
+
+<pre><code>static String publicKey = 
+    &quot;MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDWcQcgj60fU8fFev9RlvFPg0GcRgHyGFTN9ytE\n&quot; +
+    &quot;LujvfCwGt7n54Q9+k1rDDo+sRQeYdTwA7ZMS8n1RHjZATgmHw9rBBzk/cHXAVIgrJrZ5txDdW1i4\n&quot; +
+    &quot;8ZxEarcdSrmlk9ZFSsvGXE8/0fZYHM0mr4WaIh2y9E0CNkd0rU9VKAR9RQIDAQAB&quot;;
+
+static String privateKey = 
+    &quot;MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBANZxByCPrR9Tx8V6/1GW8U+DQZxG\n&quot; +
+    &quot;AfIYVM33K0Qu6O98LAa3ufnhD36TWsMOj6xFB5h1PADtkxLyfVEeNkBOCYfD2sEHOT9wdcBUiCsm\n&quot; +
+    &quot;tnm3EN1bWLjxnERqtx1KuaWT1kVKy8ZcTz/R9lgczSavhZoiHbL0TQI2R3StT1UoBH1FAgMBAAEC\n&quot; +
+    &quot;gYBkN4aBLSRXU6w1GnpgAw7bfhgXlJAsODrJ1w2dW974rStWKF797LR1DyCHsDJs7AXUtlVIib8G\n&quot; +
+    &quot;R9VRJ7Fq9A13Tm73kY/iEYXz+/n2yj6j+Uvy6bkQDqdtliQlhkRK8z+5DwWq6liaxSfImIPgKh6t\n&quot; +
+    &quot;FffvmDFA3eet5v22wHTlgQJBAPIYCjVFTd0ATg1Wx0M7MOMXa+UD5gc1pTgA0Pf3WMwtrGqH+gDc\n&quot; +
+    &quot;exad/NdqmCi0tSHo2Gd/a2wGccYsMQWLTn0CQQDiwlzyUjIXQNfMpJy5Rs8QWxnAllat4/7N/vw6\n&quot; +
+    &quot;309brfo2GWNxYnoghuGaq3gtKDq4A9xSJ1lYrQlVTcEWLDxpAkEAwqQHWQsObhf3qQvTCz/Er2A+\n&quot; +
+    &quot;VBONVtCPtHYbjLHmR8qU69XFb/nUULvW9A70pQ2c79V4X8X3RRPtV4piI3X8NQJAFGoDDB2yPL2t\n&quot; +
+    &quot;r9Kx+UwSoBpTey8NpqH78neeJX6tGkfTWsN2XGLNM9hwvwfozcftYVuXnh3EwWLykCdr1p8s4QJB\n&quot; +
+    &quot;ANFMZVHAvjXjZwMqyoL9UUxjeHX/p7IO06oal94t/Lf43h37tkJnZZI29EcJqt7zGSasmrAf4KFt\n&quot; +
+    &quot;yklzYtpNJtY&quot;;
+</code></pre>
+
+<p>原sina公钥</p>
+
+<pre><code>    private static final String publicKeyString = &quot;MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC&quot;
+            + &quot;46y69c1rmEk6btBLCPgxJkCxdDcAH9k7kBLffgG1KWqUErj&quot;
+            + &quot;dv+aMkEZmBaprEW846YEwBn60gyBih3KU518fL3F+sv2b6xEe&quot;
+            + &quot;OxgjWO+NPgSWmT3q1up95HmmLHlgVwqTKqRUHd8+Tr43D5h+J8&quot;
+            + &quot;T69etX0YNdT5ACvm+Ar0HdarwIDAQAB&quot;;
+	//加密方式
+    String source = &quot;RSA/ECB/PKCS1Padding&quot;;
+
+    public static final String WEICO_PIN = &quot;cYGgxuseY8HJzzTiNC8msCINCFoTgcvC&quot;;
+    /**
+     * App_key App_secret
+     */
+    public static final String SINA_APP_KEY = &quot;211160679&quot;;
+</code></pre>
+
+<p>MIUI默认关闭了App悬浮窗，需要在设置中打开，打开方式：
+MIUI 4.8下：设置-&gt;应用-&gt;找到应用-&gt;显示悬浮窗-&gt;开启
+MIUI 6下：安全中心-&gt; 授权管理-&gt;应用权限管理-&gt;权限管理-&gt;显示悬浮窗-&gt;勾选</p>
 
    </div>
  </div>
 
  <ul class="pager">
-     
+      &nbsp;<li class="previous"><a href="http://qihigh.github.io/back/server_move/"> 服务器迁移遇到的问题</a></li>
       &nbsp;<li class="next"><a href="http://qihigh.github.io/back/gohttpserver/"> gohttp搭建文件传输</a></li>
 </ul>
 

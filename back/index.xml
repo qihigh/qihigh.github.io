@@ -6,8 +6,154 @@
     <description>Recent content in Backs on 齐欢的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
-    <lastBuildDate>Mon, 02 Nov 2015 18:02:03 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 17 Nov 2015 16:20:25 +0800</lastBuildDate>
     <atom:link href="http://qihigh.github.io/back/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>supervisord use</title>
+      <link>http://qihigh.github.io/back/supervisord-use/</link>
+      <pubDate>Tue, 17 Nov 2015 16:20:25 +0800</pubDate>
+      
+      <guid>http://qihigh.github.io/back/supervisord-use/</guid>
+      <description>
+
+&lt;p&gt;Supervisord是用Python实现的一款非常实用的进程管理工具，和nohup比较类似。
+相比较，nohup相对简单易用，但是大量维护起来比较困难。Supervisor相对功能全面，而且易于管理。&lt;/p&gt;
+
+&lt;h2 id=&#34;安装-pip-install-supervisor:dc4ea4aa8e8bf1a08f80c6539cb38bc4&#34;&gt;安装 pip install supervisor&lt;/h2&gt;
+
+&lt;h2 id=&#34;生成配置文件:dc4ea4aa8e8bf1a08f80c6539cb38bc4&#34;&gt;生成配置文件&lt;/h2&gt;
+
+&lt;h2 id=&#34;根据配置文件启动:dc4ea4aa8e8bf1a08f80c6539cb38bc4&#34;&gt;根据配置文件启动&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;supervisord -c /etc/supervisor.conf
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;添加一条命令:dc4ea4aa8e8bf1a08f80c6539cb38bc4&#34;&gt;添加一条命令&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;[program:blog]
+command = hugo server --theme=herring-cove --buildDrafts=true --watch=true --source=&amp;quot;/Users/qihuan/workspace/java/qihigh.github.hugo&amp;quot;
+process_name = hugo-blog
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;demo:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[program:script.py] #程序的名字，在supervisor中可以用这个名字来管理该程序。
+command=/home/hadoop/script1.1.py #启动程序的命令
+autorstart=true #设置改程序是否虽supervisor的启动而启动
+directory=/home/hadoop #相当于在该目录下执行程序
+autorestart=true #程序停止之后是否需要重新将其启动
+startsecs=10 #重新启动时，等待的时间
+startretries=36 #重启程序的次数
+redirect_stderr=true #是否将程序错误信息重定向的到文件
+stdout_logfile=/home/hadoop/supervisor_log/log.txt #将程序输出重定向到该文件
+stderr_logfile=/home/hadoop/supervisor_log/err.txt #将程序错误信息重定向到该文件
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;启动博客:dc4ea4aa8e8bf1a08f80c6539cb38bc4&#34;&gt;启动博客&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;每次修改主配置文件或增改子配置文件都需要执行supervisorctl update使新配置生效。或者用supervisorctl reload重新重新启动supervisor程序
+
+supervisorctl reload    
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;当配置reload失败之后-可以查看日志文件-tmp-supervisord-log:dc4ea4aa8e8bf1a08f80c6539cb38bc4&#34;&gt;当配置reload失败之后，可以查看日志文件 /tmp/supervisord.log&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;reload 还可以通过指定配置文件的方式处理  supervisorctl -c ~/workspace/supervisor.conf ,进入交互界面进行reload
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;ui显示:dc4ea4aa8e8bf1a08f80c6539cb38bc4&#34;&gt;UI显示&lt;/h2&gt;
+
+&lt;p&gt;修改主配置文件
+vim /etc/supervisor/supervisord.conf，添加如下内容：
+[inet_http_server]
+port = 192.168.1.60:9001 ＃IP和绑定端口
+username = admin ＃管理员名称
+password = 123456 #管理员密码
+这样，在浏览器中输入配置中写的地址和端口号，输入配置好的用户名和密码，便可以看到基于网页的控制台界面。从中，可以察看supervisor监控的&amp;gt;信息，可以察看进程的日志等。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>服务器迁移遇到的问题</title>
+      <link>http://qihigh.github.io/back/server_move/</link>
+      <pubDate>Wed, 11 Nov 2015 18:32:09 +0800</pubDate>
+      
+      <guid>http://qihigh.github.io/back/server_move/</guid>
+      <description>
+
+&lt;p&gt;在处理服务器迁移的过程中，遇到了很多问题，这里进行一下记录。&lt;/p&gt;
+
+&lt;h3 id=&#34;添加ssh免登陆:7c29444d458a4f774a8370445c67ef45&#34;&gt;添加ssh免登陆&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;ssh免登陆主要是在用户目录 .ssh/authorized_keys 下添加用户本地的 id_rsa.pub 。需要注意的是，ssh 对权限有很严格的要求， authorized_keys 的文件权限不能太高也不能太低，否则都会导致ssh无法登陆的问题。
+``` chmod 600 authorized_keys  ``` 这个是最合适的权限
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;添加新用户-并带有用户的个人目录:7c29444d458a4f774a8370445c67ef45&#34;&gt;添加新用户，并带有用户的个人目录&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;首先添加一个用户组:
+# groupadd deployer
+
+# 添加一个用户weico，并带有个人目录
+useradd weico -d /home/weico -g deployer
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;一个进行linux安全初始化的脚本:7c29444d458a4f774a8370445c67ef45&#34;&gt;一个进行linux安全初始化的脚本&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://qihigh.github.io/files/linux_init.sh&#34;&gt;linux init&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;其中
+  &lt;pre&gt;
+    # chattr /etc/passwd /etc/shadow
+    chattr +i /etc/passwd
+    chattr +i /etc/shadow
+    chattr +i /etc/group
+    chattr +i /etc/gshadow
+  &lt;/pre&gt;
+  是将账户、密码相关文件进行特殊处理，不让随意更改.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;单文件jumper处理:7c29444d458a4f774a8370445c67ef45&#34;&gt;单文件jumper处理&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;原来的处理，是或者使用nodejs写的后台，或者是python写的后台，但其实逻辑都是获取userAgent，并判断是什么平台的。这点用js完全可以做到，没必要做这么重的处理，这里将其换成了一个单独的html文件&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://qihigh.github.io/files/sugar_jumper.html&#34;&gt;jumper&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;这里并没有添加跳转url的代码，仅仅是弹一个alert&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;nginx 需要修改配置为指向单独的文件，而不再是一个服务器地址&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;//TODO&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;	try_files $uri sugar_jumper.html
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;密码均采用随机生成的:7c29444d458a4f774a8370445c67ef45&#34;&gt;密码均采用随机生成的&lt;/h3&gt;
+
+&lt;p&gt;这里使用的是一个&lt;a href=&#34;http://suijimimashengcheng.51240.com/&#34;&gt;随机密码生成网页&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;服务器磁盘满了:7c29444d458a4f774a8370445c67ef45&#34;&gt;服务器磁盘满了&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;迁移过去之后，磁盘变小了很多，比较容易出现磁盘满了的问题，一般都是由于日志导致的，可以通过命令```du -sh /* ``` 来查看指定目录下（当前是根目录）磁盘使用情况。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;linux目录映射:7c29444d458a4f774a8370445c67ef45&#34;&gt;linux目录映射&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;ln -s destName fromPath
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;pil-过期问题:7c29444d458a4f774a8370445c67ef45&#34;&gt;PIL 过期问题&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;使用 pip install PIL  --allow-unverified PIL --allow-all-external 进行PIL的安装
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>gohttp搭建文件传输</title>
@@ -275,6 +421,31 @@ cd virtual
 
 &lt;li&gt;&lt;p&gt;再次执行&lt;code&gt;sudo pip install oursql&lt;/code&gt; ,打出一些警告信息，安装成功。&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;h3 id=&#34;centos-安装oursql模块时-遇到的问题解决方法:dbfe7d96810df03758892b85f573ce8c&#34;&gt;centos 安装oursql模块时，遇到的问题解决方法&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;I have Python 2.7.5, MySQL 5.6 and CentOS 7.1.1503.
+
+For me it worked with the following command:
+
+# pip install mysql-python
+Note pre-requisites here:
+
+Install Python pip:
+
+# rpm -iUvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+
+# yum -y update
+Reboot the machine (if kernel is also updated)
+
+# yum -y install python-pip
+Install Python devel packages:
+
+# yum install python-devel
+Install MySQL devel packages:
+
+# yum install mysql-devel
+&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     
@@ -284,181 +455,233 @@ cd virtual
       <pubDate>Mon, 26 Oct 2015 15:40:55 +0800</pubDate>
       
       <guid>http://qihigh.github.io/back/backyield/</guid>
-      <description>&lt;pre&gt;
+      <description>
 
-账号：
+&lt;h3 id=&#34;三方服务账号:ed319f1a11d3eb46313da354e84b2312&#34;&gt;三方服务账号:&lt;/h3&gt;
 
-1、监控宝
-http://www.jiankongbao.com
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://www.jiankongbao.com&#34;&gt;监控宝&lt;/a&gt;&lt;/p&gt;
 
-weicolomo@gmail.com     weico+lomo  -&gt; weico+lomo_
-canon@3ciyuan.com     xinciyuan123【已弃用】
-dev@weico.com       kUBZiiwEh3Bie8   -&gt; kUBZiiwEh3Bie8_
+&lt;ul&gt;
+&lt;li&gt;weicolomo@gmail.com  weico+lomo_&lt;/li&gt;
+&lt;li&gt;dev@weico.com  kUBZiiwEh3Bie8_&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 
-2、snmp v3（所有机器）
-weico     8899//==we
+&lt;li&gt;&lt;p&gt;snmp v3（所有机器）&lt;/p&gt;
 
-3、UCloud
-dev@eicodesign.com
-dev@5YxbNTdbMP  -&gt; dev@5YxbNTdbMP_
+&lt;ul&gt;
+&lt;li&gt;weico     8899//==we&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 
-更新为
-    qihuan@weico.com
-    weico2014++
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://consolev3.ucloud.cn/dashboard&#34;&gt;UCloud&lt;/a&gt;&lt;/p&gt;
 
-4、DNSPod
-info@eicodesign.com  // weico.com weico.net
-9ol.=[;.        -&gt; 9ol.=[;._
-weico@eicodesign.com // weico.cc weicopl.us
-9ol.=[;.        -&gt; 9ol.=[;._
-likan@eicodesign.com
-9ol.=[;.        -&gt; 9ol.=[;.=
+&lt;ul&gt;
+&lt;li&gt;dev@weico.com sinaweico2015++&lt;/li&gt;
+&lt;li&gt;主机 weiconote root y!nHy5D# ubuntu y!nHy5D#  120.132.56.18&lt;/li&gt;
+&lt;li&gt;主机 weico root 4ZsYFu@L weico BgQM10F0  123.59.66.160
+android/ios/server SuoRFt3$&lt;/li&gt;
+&lt;li&gt;主机 weicoNote root 6j#Owk7q 123.59.47.235&lt;/li&gt;
+&lt;li&gt;数据库 weicoDB R2mi620dr&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 
-5、花生壳
-weicodev/1q2w3e4r  -&gt; 1q2w3e4r_
-                   -&gt; 1q2w3e4r
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://www.dnspod.cn/Domain&#34;&gt;DNSPod&lt;/a&gt;&lt;/p&gt;
 
-6 Linode    --- 
-用户名: 1982870, 密码: 1982870123a
-ssh root@106.185.52.238 -p 1010
-Cec+Pav&gt;kelv&gt;iD%
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;server@weico.com   R2mi620dr&lt;/p&gt;
 
-7 Jenkins
-http://weicodev.wicp.net:9090/
-http://192.168.1.80:8080/
-username: weico
-password: fU$ij+Mod:aD]jaR
+&lt;blockquote&gt;
+&lt;p&gt;weico.com weico.net&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
 
-8 weico.com邮箱管理帐号
-ym.163.com
-admin@weico.com / OLuJRaDe51qQ  //error password
+&lt;li&gt;&lt;p&gt;weico@eicodesign.com 2huiDGj54i&lt;/p&gt;
 
-9. WeicoBUG跟踪系统
+&lt;blockquote&gt;
+&lt;p&gt;weico.cc weicopl.us&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
 
-http://192.168.1.80/bugzilla/ （内网）
-http://weicodev.wicp.net:8080/bugzilla/
-dev@weico.com
-1123581321
+&lt;li&gt;&lt;p&gt;likan@eicodesign.com  9ol.=[;.=     //not used&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 
-10. 七牛云存储 / ucloud
-    dev@weico.com
-    密码 weico2014++
+&lt;li&gt;&lt;p&gt;weico.com邮箱管理帐号&lt;/p&gt;
 
+&lt;ul&gt;
+&lt;li&gt;dev@weico.com  ps:5W1MPpgUDq&lt;/li&gt;
+&lt;li&gt;server@weico.com   ps: oRtuMJQP5Y&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 
-联系方式：
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;https://portal.qiniu.com/&#34;&gt;七牛云存储&lt;/a&gt;&lt;/p&gt;
 
-800083103     广东锐讯网络有限公司
+&lt;ul&gt;
+&lt;li&gt;dev@weico.com  weico2014++&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;花生壳 // not used&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;weicodev/1q2w3e4r   1q2w3e4r&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Linode&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;用户名: 1982870, 密码: 1982870123a&lt;/p&gt;
+
+&lt;p&gt;ssh root@106.185.52.238 -p 1010&lt;/p&gt;
+
+&lt;p&gt;Cec+Pav&amp;gt;kelv&amp;gt;iD%&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;机房联系方式:ed319f1a11d3eb46313da354e84b2312&#34;&gt;机房联系方式&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;800083103     广东锐讯网络有限公司
 1171533501     森华 销售 看丹桥-梁爽
 938060261      森华 看丹桥
 712957909     美国机房
 2880269152     锐讯-周鸿升
 609509091     李侃推荐 服务器-DELL-聂伟
+&lt;/code&gt;&lt;/pre&gt;
 
+&lt;h3 id=&#34;服务器列表:ed319f1a11d3eb46313da354e84b2312&#34;&gt;服务器列表：&lt;/h3&gt;
 
-服务器列表：
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;ssh deployer@42.62.2.50 -&lt;/p&gt;
 
-ssh deployer@42.62.2.50 - 
-主要是weico的好友数据库，以及postgres地理位置数据，基本不用特别维护
+&lt;p&gt;主要是weico的好友数据库，以及postgres地理位置数据，基本不用特别维护&lt;/p&gt;&lt;/li&gt;
 
-ssh deployer@42.62.2.51 - 
-1. 新的小游戏平台weicogame服务（包括后端API以及前端服务）
-2. 方糖相机资源管理API服务
-3. 方糖相机，下载跳转jumper服务
-4. 方糖相机用户数据上报服务
-5. meShot资源管理 ResourceManager
+&lt;li&gt;&lt;p&gt;ssh deployer@42.62.2.51 -&lt;/p&gt;
 
-ssh deployer@42.62.2.58  - 
-1. 微可拍API /home/deployer/developer/weicoplus (编译后的)
-2. Pinco服务
-3. Pinco的Tag搜索服务
-4. weico api服务
+&lt;ol&gt;
+&lt;li&gt;新的小游戏平台weicogame服务（包括后端API以及前端服务）&lt;/li&gt;
+&lt;li&gt;方糖相机资源管理API服务&lt;/li&gt;
+&lt;li&gt;方糖相机，下载跳转jumper服务&lt;/li&gt;
+&lt;li&gt;方糖相机用户数据上报服务&lt;/li&gt;
+&lt;li&gt;meShot资源管理 ResourceManager&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
 
-ssh deployer@42.62.2.59  - 
-1. 微可拍粉丝数据SSDB
+&lt;li&gt;&lt;p&gt;ssh deployer@42.62.2.58  -&lt;/p&gt;
 
-ssh deployer@42.62.2.60 -
-1. 文件存储服务器
+&lt;ol&gt;
+&lt;li&gt;微可拍API /home/deployer/developer/weicoplus (编译后的)&lt;/li&gt;
+&lt;li&gt;Pinco服务&lt;/li&gt;
+&lt;li&gt;Pinco的Tag搜索服务&lt;/li&gt;
+&lt;li&gt;weico api服务&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
 
-ssh deployer@42.62.2.61 -
-1. 微可拍好友动态数据SSDB
+&lt;li&gt;&lt;p&gt;ssh deployer@42.62.2.59  -&lt;/p&gt;
 
-ssh deployer@42.62.2.62 -
-1. weico3 数据库
+&lt;p&gt;微可拍粉丝数据SSDB&lt;/p&gt;&lt;/li&gt;
 
-ssh weico3@42.62.2.62
-1. weico3 服务 (ssh weico3@42.62.2.62)
-     文件位置：/mnt/tfs7/weico3/go/src/com.weico/weico3 
-     项目地址：git@weicodev.vicp.cc:/mnt/data/repo/weico_server_go_v3.git
+&lt;li&gt;&lt;p&gt;ssh deployer@42.62.2.60 -&lt;/p&gt;
 
-ssh deployer@118.26.233.56 -
-1. 微可拍老接口 （/home/deployer/project/weicolomo/）
-2. 微可拍用户接口 （/home/deployer/project/profile/）
-3. 微可拍接口 （/home/deployer/androidtest/weicolomo）
-4. 微可拍辅库
-5. Redis服务（weico_user_q定时删除）
+&lt;p&gt;文件存储服务器&lt;/p&gt;&lt;/li&gt;
 
-ssh deployer@118.26.233.57
-1. 微可拍主库
+&lt;li&gt;&lt;p&gt;ssh deployer@42.62.2.61 -&lt;/p&gt;
 
-ssh deployer@118.26.225.125
-1. weico.com/eicodesign.com等官网
-2. 数据库访问 mysql -h 127.0.0.1 -uroot
-3. eico的用户管理erp http://118.26.225.125:8087/
+&lt;p&gt;微可拍好友动态数据SSDB&lt;/p&gt;&lt;/li&gt;
 
-ssh deployer@119.147.137.69
-ssh deployer@119.90.40.250
+&lt;li&gt;&lt;p&gt;ssh deployer@42.62.2.62 -&lt;/p&gt;
 
-ssh ubuntu@120.132.54.51
-1. weiconote国内服务器
-su: note@weico2014++
- ip更新为 120.132.56.18
- sudo weico2014++
- sudo -i 切换为root用户
+&lt;p&gt;weico3 数据库&lt;/p&gt;&lt;/li&gt;
 
-ssh deployer@106.185.52.238 -p 1010
-1. weiconote海外服务器地址（oversea, japan, korean）
-     项目路径 /home/deployer/developer/workspace/src/com.weico
-2. redis服務 redis-cli
-3. mysql服务 mysql -uroot -proot
+&lt;li&gt;&lt;p&gt;ssh weico3@42.62.2.62&lt;/p&gt;
 
+&lt;p&gt;weico3 服务 (ssh weico3@42.62.2.62)&lt;/p&gt;
 
+&lt;ul&gt;
+&lt;li&gt;文件位置：/mnt/tfs7/weico3/go/src/com.weico/weico3&lt;/li&gt;
+&lt;li&gt;项目地址：git@weicodev.vicp.cc:/mnt/data/repo/weico_server_go_v3.git&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 
+&lt;li&gt;&lt;p&gt;ssh deployer@118.26.233.56&lt;/p&gt;
 
-常见错误处理：
-1. 服务器硬盘快满了
-cd /usr/local/nginx/logs/  或者
+&lt;ol&gt;
+&lt;li&gt;微可拍老接口 （/home/deployer/project/weicolomo/）&lt;/li&gt;
+&lt;li&gt;微可拍用户接口 （/home/deployer/project/profile/）&lt;/li&gt;
+&lt;li&gt;微可拍接口 （/home/deployer/androidtest/weicolomo）&lt;/li&gt;
+&lt;li&gt;微可拍辅库&lt;/li&gt;
+&lt;li&gt;Redis服务（weico_user_q定时删除）&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ssh deployer@118.26.233.57&lt;/p&gt;
+
+&lt;p&gt;微可拍主库&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ssh deployer@118.26.225.125&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;weico.com/eicodesign.com等官网&lt;/li&gt;
+&lt;li&gt;数据库访问 mysql -h 127.0.0.1 -uroot&lt;/li&gt;
+&lt;li&gt;eico的用户管理erp &lt;a href=&#34;http://118.26.225.125:8087/&#34;&gt;http://118.26.225.125:8087/&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ssh deployer@119.147.137.69&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ssh deployer@119.90.40.250&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ssh ubuntu@120.132.56.18&lt;/p&gt;
+
+&lt;p&gt;weiconote国内服务器&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;sudo y!nHy5D#&lt;/p&gt;
+
+&lt;p&gt;sudo -i 切换为root用户&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ssh deployer@106.185.52.238 -p 1010&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;weiconote海外服务器地址（oversea, japan, korean）
+ 项目路径 /home/deployer/developer/workspace/src/com.weico&lt;/li&gt;
+&lt;li&gt;redis服務 redis-cli&lt;/li&gt;
+&lt;li&gt;mysql服务 mysql -uroot -proot&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;常见错误处理:ed319f1a11d3eb46313da354e84b2312&#34;&gt;常见错误处理：&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;服务器硬盘快满了&lt;/p&gt;
+
+&lt;p&gt;cd /usr/local/nginx/logs/  或者
 cd /usr/local/tengine/logs
-cp /dev/null 比较大的日志.log
+cp /dev/null 比较大的日志.log&lt;/p&gt;&lt;/li&gt;
 
-2. 118.26.233.56 的mysql主从备份出错
-https://alexzeng.wordpress.com/2013/10/17/how-to-fix-mysql-slave-after-relay-log-corrupted/
+&lt;li&gt;&lt;p&gt;118.26.233.56 的mysql主从备份出错&lt;/p&gt;
 
-mysql -uroot -proot
+&lt;p&gt;&lt;a href=&#34;https://alexzeng.wordpress.com/2013/10/17/how-to-fix-mysql-slave-after-relay-log-corrupted/&#34;&gt;https://alexzeng.wordpress.com/2013/10/17/how-to-fix-mysql-slave-after-relay-log-corrupted/&lt;/a&gt;&lt;/p&gt;
 
-show slave status\G;
+&lt;p&gt;mysql -uroot -proot&lt;/p&gt;
 
-stop slave;
+&lt;p&gt;show slave status\G;&lt;/p&gt;
 
-CHANGE MASTER TO MASTER_LOG_FILE=&#39;mysql-bin.000737&#39;, MASTER_LOG_POS=625032890;
+&lt;p&gt;stop slave;&lt;/p&gt;
 
-start slave;
+&lt;p&gt;CHANGE MASTER TO MASTER_LOG_FILE=&amp;lsquo;mysql-bin.000737&amp;rsquo;, MASTER_LOG_POS=625032890;&lt;/p&gt;
 
-3. weico+服务无法访问，先查看42.62.2.58上的10010端口的revel 服务是否正常运行，没有则运行 revel run com.weico/weicoplus prod 10010
-如果服务正常运行，则查看是不是日志满了
+&lt;p&gt;start slave;&lt;/p&gt;&lt;/li&gt;
 
-4.  42.62.2.51服务器添加服务端口
-     firewall-cmd --permanent --zone=public --add-port=10020/tcp
-     firewall-cmd --reload
+&lt;li&gt;&lt;p&gt;weico+服务无法访问，&lt;/p&gt;
 
+&lt;p&gt;先查看42.62.2.58上的10010端口的revel 服务是否正常运行，没有则运行 revel run com.weico/weicoplus prod 10010
+如果服务正常运行，则查看是不是日志满了&lt;/p&gt;&lt;/li&gt;
 
-5. 海蜘蛛路由器密码
-    路由器管理地址：http://10.0.1.254:880/
-    管理页面登陆账号:admin - r3i2ojS_dcjir4f
-    路由器拨号账号：
-        1. 010010017063 - 731792
-        2. 010999009413  - 暂未重置
+&lt;li&gt;&lt;p&gt;42.62.2.51服务器添加服务端口&lt;/p&gt;
 
-&lt;/pre&gt;
+&lt;p&gt;firewall-cmd &amp;ndash;permanent &amp;ndash;zone=public &amp;ndash;add-port=10020/tcp
+firewall-cmd &amp;ndash;reload&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;海蜘蛛路由器密码&lt;/p&gt;
+
+&lt;p&gt;路由器管理地址：&lt;a href=&#34;http://10.0.1.254:880/&#34;&gt;http://10.0.1.254:880/&lt;/a&gt;
+管理页面登陆账号:admin - r3i2ojS_dcjir4f
+路由器拨号账号：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1. 010010017063 - 731792
+2. 010999009413  - 暂未重置
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
 </description>
     </item>
     
@@ -669,6 +892,20 @@ nginx -s reload &lt;/pre&gt;&lt;/p&gt;&lt;/li&gt;
 &lt;li&gt;&lt;p&gt;导出数据库為dbname某张表(test)结构及表數據（不加-d）&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;mysqldump -uroot -pdbpasswd dbname test&amp;gt;db.sql;&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;数据库备份跨服务器beifen.&lt;/p&gt;
+
+&lt;p&gt;mysqldump -h 192.168.100.57  -P 3306 -u my58 -p test &amp;gt; tset.sql&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;change mysql root password&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;need to stop mysqld&lt;/li&gt;
+&lt;li&gt;start mysql by mysql_safe with params :
+mysqld_safe &amp;ndash;skip-grant-tables&amp;amp;&lt;/li&gt;
+&lt;li&gt;type : mysql -u root , and password will not be asked&lt;/li&gt;
+&lt;li&gt;change the root password&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h4 id=&#34;其他数据库相关:21b917757f8ba675c9e9b05b2ed32895&#34;&gt;其他数据库相关&lt;/h4&gt;
@@ -864,6 +1101,42 @@ nohup ./weico3 &amp;amp;
 &lt;p&gt;&lt;code&gt;git remote add origin root@dev.weico.com:/home/android/WeicoTV.git&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;重新push一下即可，这样会将本地所有的修改提交到新的服务器上。（服务器端采用复制git包或者重新初始化git包的方式，都可以将代码更新成最新的）&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;创建用户 centos&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;首先添加用户组&lt;/p&gt;
+
+&lt;p&gt;groupadd deployer&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;添加新用户&lt;/p&gt;
+
+&lt;p&gt;useradd -d /home/weico -g deployer weico&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;新用户设置密码&lt;/p&gt;
+
+&lt;p&gt;passwd weico&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ucloud 开放的端口3389，是针对window系统的，这里可以用来测试一些服务，跳过nginx配置&lt;/p&gt;
+
+&lt;p&gt;./gohttp &amp;ndash;root . &amp;ndash;port 3389&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;查看已经被删除的句柄&lt;/p&gt;
+
+&lt;p&gt;lsof | grep deleted&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;nginx路径配置匹配规则&lt;/p&gt;
+
+&lt;p&gt;nginx location语法
+基本语法：location [=|~|~*|^~] /uri/ { … }&lt;/p&gt;
+
+&lt;p&gt;= 严格匹配。如果这个查询匹配，那么将停止搜索并立即处理此请求。
+~ 为区分大小写匹配(可用正则表达式)
+!~为区分大小写不匹配
+~* 为不区分大小写匹配(可用正则表达式)
+!~*为不区分大小写不匹配
+^~ 如果把这个前缀用于一个常规字符串,那么告诉nginx 如果路径匹配那么不测试正则表达式。&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
 </description>
     </item>

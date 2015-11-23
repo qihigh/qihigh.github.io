@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Sugar Jumper</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+	var config = {
+        WXPrefix: 'http://mp.weixin.qq.com/mp/redirect?url=',
+        appLink: {
+        	ios: 'https://itunes.apple.com/cn/app/sugar-cam/id953446538',
+            android: 'http://weicodown.qiniudn.com/SugarCam.apk'
+            // ios: 'http://fir.im/sugarcam/install',
+            // android: 'http://fir.im/sugarcam/install'
+        }
+	};
+
+	function isWX(userAgent){
+		return /micromessenger/.test(userAgent);
+	}
+
+	function getDevices(userAgent){
+		if (/android/.test(ua)) {
+			return 'android';
+		}
+		return 'ios';
+	}
+
+	var ua = navigator.userAgent.toLowerCase();
+	var prefix = "";
+	if (isWX(ua)) {
+		prefix = config.WXPrefix;
+	}
+
+	var device = getDevices(ua);
+
+	alert(prefix + config.appLink[device])
+</script>
+</html>
